@@ -1,25 +1,42 @@
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
+
+DB_FILE = 'tmp/test_db'
+FileUtils.mkdir_p File.dirname(DB_FILE)
+FileUtils.rm_f DB_FILE
+
+ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => DB_FILE
+
+load('spec/schema.rb')
 
 describe "ActiveRecord::Base" do
-  class ARModel < ActiveRecord::Base; end
-  
+  class Model < ActiveRecord::Base
+  end
+
   before do
     @mock_model = mock("mock model")
   end
-  
+
   it "should create a new record if new_or_update! is passed a hash without an :id" do
     attributes = {:fake_column => 'nothing really'}
-    ARModel.should_receive(:new).with(attributes)
-    ARModel.new_or_update!(attributes)
+    Model.should_receive(:new).with(attributes)
+    Model.new_or_update!(attributes)
   end
 
   it "should update record if new_or_update! is passed hash with :id" do
     attributes = {:fake_column => 'nothing really', :id => 1}
-    ARModel.should_receive(:find).and_return(@mock_model)
+    Model.should_receive(:find).and_return(@mock_model)
     @mock_model.should_receive(:update_attributes!)
-    ARModel.new_or_update!(attributes)
+    Model.new_or_update!(attributes)
   end
-  
+
 end
 
-
+#describe 'extensions' do
+#  class Model < ActiveRecord::Base
+#    database 'hello'
+#  end
+#
+#  it 'should allow different databases' do
+#    Model.database.inspect
+#  end
+#end

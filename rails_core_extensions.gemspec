@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   ## the sub! line in the Rakefile
   s.name              = 'rails_core_extensions'
   s.version           = '0.0.1'
-  s.date              = '2012-04-05'
+  s.date              = '2012-04-09'
   s.rubyforge_project = 'rails_core_extensions'
 
   ## Make sure your summary is short. The description may be as long
@@ -47,7 +47,8 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  # s.add_dependency('DEPNAME', [">= 1.1.0", "< 2.0.0"])
+  s.add_dependency('activerecord', [">= 2.3.0", "< 3.0.0"])
+  s.add_dependency('actionpack', [">= 2.3.0", "< 3.0.0"])
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
@@ -59,7 +60,6 @@ Gem::Specification.new do |s|
   # = MANIFEST =
   s.files = %w[
     Gemfile
-    Gemfile.lock
     LICENSE
     README.md
     Rakefile
@@ -68,11 +68,12 @@ Gem::Specification.new do |s|
     lib/rails_core_extensions/action_controller_sort_extensions.rb
     lib/rails_core_extensions/action_view_currency_extensions.rb
     lib/rails_core_extensions/action_view_has_many_extensions.rb
+    lib/rails_core_extensions/active_record_cloning.rb
     lib/rails_core_extensions/active_record_extensions.rb
     lib/rails_core_extensions/active_record_migration_extensions.rb
-    rails/init.rb
     rails_core_extensions.gemspec
     spec/active_record_extensions_spec.rb
+    spec/schema.rb
     spec/spec_helper.rb
   ]
   # = MANIFEST =

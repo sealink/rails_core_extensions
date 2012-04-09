@@ -5,6 +5,9 @@ module ActiveRecordExtensions
 
   
   module ClassMethods
+    # Like establish_connection but postfixes the key with the rails environment
+    # e.g. database('hello') in development will look for the database
+    #      which in config/database.yml is called hello_development
     def database(key)
       establish_connection("#{key}_#{Rails.env}")
     end
@@ -93,20 +96,6 @@ module ActiveRecordExtensions
       ENUM
     end
 
-    def restricted_by_right
-      class << self
-        def accessible_to(user)
-          all.select{|o| user.rights.include?(o.right)}
-        end
-      end
-
-      include RestrictedByRight
-
-      belongs_to :right
-      before_create :create_access_right!
-      after_destroy :destroy_access_right!
-    end
-
     def optional_fields(*possible_fields)
       cattr_accessor :enabled_fields
       self.enabled_fields = Array.wrap(Setting.send("#{self.to_s.underscore}_optional_fields")).map { |f| f.to_s.to_sym }
@@ -118,24 +107,6 @@ module ActiveRecordExtensions
           end
         EVAL
       end
-    end
-
-    # Add a money field attribute
-    #
-    # By default it will use attribute_in_cents as db field, but this can
-    # be overridden by specifying :db_field => 'somthing_else'
-    def money_field(attribute, options={})
-      db_field = options[:db_field] || attribute.to_s + '_in_cents'
-      self.composed_of(attribute,
-        :class_name => "Money",
-        :allow_nil  => true,
-        :mapping    => [[db_field, 'cents']],
-        :converter  => Proc.new {|field| field.to_money}
-      )
-    end
-
-    def money_fields(*attributes)
-      attributes.each {|a| self.money_field(a)}
     end
 
     # Add a WeekDays attribute
@@ -236,33 +207,6 @@ module ActiveRecordExtensions
     end
 
 
-    # Cloning
-    def inherited(subclass)
-      super
-      subclass.cloned_attributes_hash = cloned_attributes_hash
-    end
-
-
-    def attributes_included_in_cloning
-      cloned_attributes_hash[:include].dup
-    end
-
-
-    def attributes_excluded_from_cloning
-      cloned_attributes_hash[:exclude].dup
-    end
-
-
-    def clones_attributes(*attributes)
-      cloned_attributes_hash[:include] = attributes.map(&:to_sym)
-    end
-
-
-    def clones_attributes_except(*attributes)
-      cloned_attributes_hash[:exclude] = attributes.map(&:to_sym)
-    end
-
-
     def translate(key, options = {})
       klass = self
       klass = klass.superclass while klass.superclass != ActiveRecord::Base
@@ -274,33 +218,10 @@ module ActiveRecordExtensions
       self.translate(key, options)
     end
 
-
-    protected
-
-    def cloned_attributes_hash
-      @cloned_attributes ||= {:include => [], :exclude => []}
-    end
-
-
-    def cloned_attributes_hash=(attributes_hash)
-      @cloned_attributes = attributes_hash
-    end
-
   end
 
   
   module InstanceMethods
-
-
-    def self.included(base)
-      base.class_eval %q{
-        alias_method :base_clone_attributes, :clone_attributes
-        def clone_attributes(reader_method = :read_attribute, attributes = {})
-          allowed = cloned_attributes
-          base_clone_attributes(reader_method, attributes).delete_if { |k,v| !allowed.include?(k.to_sym) }
-        end
-      }
-    end
 
 
     def to_drop
@@ -308,21 +229,6 @@ module ActiveRecordExtensions
       @drop_class.new(self)
     end
     alias_method :to_liquid, :to_drop
-
-
-    def clone_excluding(excludes=[])
-      cloned = clone
-
-      excludes ||= []
-      excludes = [excludes] unless excludes.is_a?(Enumerable)
-
-      excludes.each do |excluded_attr|
-        attr_writer = (excluded_attr.to_s + '=').to_sym
-        cloned.send attr_writer, nil
-      end
-
-      cloned
-    end
 
 
     # Validates the presence of the required fields identified in a rule-string.
@@ -402,29 +308,6 @@ module ActiveRecordExtensions
       end
     end
 
-
-    # Cloning
-
-    def cloned_attributes
-      included_attributes = if self.class.attributes_included_in_cloning.empty?
-        attribute_names.map(&:to_sym)
-      else
-        attribute_names.map(&:to_sym) & self.class.attributes_included_in_cloning
-      end
-      included_attributes - self.class.attributes_excluded_from_cloning
-    end
-
   end
 
-end
-
-module RestrictedByRight
-  private
-  def create_access_right!
-    self.right = Right.find_or_create_by_name(:name => "#{self.class.name.titleize}: #{name}")
-  end
-
-  def destroy_access_right!
-    self.right.try(:destroy)
-  end
 end

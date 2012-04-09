@@ -9,6 +9,13 @@ require 'rubygems'
 require 'bundler/setup'
 require 'rails_core_extensions'
 
+if ENV['COVERAGE']
+  require 'simplecov'
+  require 'simplecov-rcov'
+  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+  SimpleCov.start
+end
+
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
