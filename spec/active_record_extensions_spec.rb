@@ -31,6 +31,25 @@ describe "ActiveRecord::Base" do
 
 end
 
+describe RailsCoreExtensions::ActionControllerSortable do
+  class NormalController < ActionController::Base
+  end
+
+  class SortableController < ActionController::Base
+    sortable
+  end
+
+  class RemoteBadSortableController < ActionController::Base
+    remote_bad_sortable
+  end
+
+  it 'should sort' do
+    NormalController.new.methods.should_not include(:sort)
+    SortableController.new.methods.should include(:sort)
+    RemoteBadSortableController.new.methods.should include(:move_higher)
+  end
+end
+
 #describe 'extensions' do
 #  class Model < ActiveRecord::Base
 #    database 'hello'
