@@ -17,39 +17,12 @@ module ActiveRecordExtensions
       class_eval <<-CACHE
         after_save :clear_attribute_cache
         after_destroy :clear_attribute_cache
-
-        def clear_attribute_cache
-          Rails.cache.delete("#{self.name}.attribute_cache") if self.class.should_cache?
-        end
-
-        def self.attribute_cache
-          cache_key = "#{self.name}.attribute_cache"
-          if self.should_cache?
-            Rails.cache.read(cache_key) || self.generate_cache(cache_key)
-          else
-            self.generate_attributes_hash
-          end
-        end
-
-        def self.generate_attributes_hash
-          Hash[self.ordered.all.map { |o| [o.send("#{method}"), o.attributes] }]
-        end
-
-        def self.generate_cache(cache_key)
-          if cache = generate_attributes_hash
-            Rails.cache.write(cache_key, cache)
-          end
-          cache
-        end
-
-        def self.should_cache?
-          Rails.configuration.action_controller.perform_caching
-        end
+        cattr_accessor :cache_attributes_by
+        self.cache_attributes_by = '#{method}'
       CACHE
+      extend ActiveRecordCacheAllAttributes::ClassMethods
+      include ActiveRecordCacheAllAttributes::InstanceMethods
     end
-
-
-
 
     # Create a new object from the attributes passed in
     # OR update an existing

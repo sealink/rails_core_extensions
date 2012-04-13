@@ -50,12 +50,22 @@ describe RailsCoreExtensions::ActionControllerSortable do
   end
 end
 
-#describe 'extensions' do
-#  class Model < ActiveRecord::Base
-#    database 'hello'
-#  end
-#
-#  it 'should allow different databases' do
-#    Model.database.inspect
-#  end
-#end
+describe ActiveRecordExtensions do
+  class Model < ActiveRecord::Base
+    cache_all_attributes :by => 'name'
+  end
+
+  before do
+    Model.stub!(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+    Model.stub!(:should_cache?).and_return(true)
+  end
+
+  it 'should cache all attributes' do
+    @first = Model.create!(:name => 'First')
+    @second = Model.create!(:name => 'Second')
+
+    expected = {'First' => @first.attributes, 'Second' => @second.attributes}
+    Model.generate_attributes_hash.should == expected
+    Model.attribute_cache.should == expected
+  end
+end
