@@ -12,7 +12,11 @@ if ENV['COVERAGE']
   require 'simplecov'
   require 'simplecov-rcov'
   SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
-  SimpleCov.start
+  SimpleCov.start do
+    add_filter '/vendor/'
+    add_filter '/spec/'
+    add_group 'lib', 'lib'
+  end
 end
 
 require 'rails_core_extensions'
