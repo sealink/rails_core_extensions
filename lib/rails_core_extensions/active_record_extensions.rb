@@ -197,6 +197,19 @@ module ActiveRecordExtensions
   module InstanceMethods
 
 
+    def all_errors
+      errors = {}
+      self.errors.each do |attr, msg|
+        errors[attr] = if (record_attr = self.send(attr)).is_a?(ActiveRecord::Base)
+          record_attr.all_errors
+        else
+          msg
+        end
+      end
+      errors
+    end
+
+
     def to_drop
       @drop_class ||= (self.class.name+'Drop').constantize
       @drop_class.new(self)
