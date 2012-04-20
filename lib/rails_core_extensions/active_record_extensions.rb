@@ -220,7 +220,7 @@ module ActiveRecordExtensions
     # Validates the presence of the required fields identified in a rule-string.
     #
     # Similar to validates_presence_of macro, but is an INSTANCE method.
-    # This allows it to vary depending on customised settings.
+    # This allows it to vary depending on custom settings.
     #
     # Example:
     # validate_required_fields "field1,field2 or field4"
@@ -229,28 +229,31 @@ module ActiveRecordExtensions
     #  - the name of a required field
     #  - OR a set of required field names spearated by 'or' (where only ONE is required)
     #
-    def validate_required_fields(required_field_string, association = self)
+    def validate_required_fields(required_field_string)
       return if required_field_string.strip.blank?
 
-      # Comma seperated list of field sets, where each field set *may* contain 'or'
-      required_field_rules = required_field_string.split(',').map{|f| f.split(" or ").map(&:strip)}
-
+      # Comma separated list of field sets, where each field set *may* contain 'or'
+      required_field_rules = required_field_string.split(',').map { |f| f.split(" or ").map(&:strip) }
+      
       required_field_rules.each do |required_field_rule|
-        # Find 'or' seperated fields
-        next unless required_field_rule.all?{|field|
-          if association.send(field) == false
-            false
+        if required_field_rule.all? { |field| self.send(field).to_s.blank? }
+          if required_field_rule.size == 1
+            errors.add(required_field_rule.first, "is required")
           else
-            association.send(field).blank?
+            errors.add_to_base("One of %s is required" % required_field_rule.map(&:humanize).to_sentence)
           end
-        }
-
-        if required_field_rule.size == 1
-          errors.add(required_field_rule.first, "is required")
-        else
-          errors.add_to_base("One of %s is required" % required_field_rule.map(&:humanize).to_sentence)
         end
       end
+    end
+    
+        
+    def self.find_model_by_attribute(attribute)
+      return self if self.column_names.include?(attribute.to_s)
+      found = nil
+      reflect_on_all_associations do |association|
+        found = association.find_model_by_attribute(attribute)
+      end
+      found
     end
 
 
