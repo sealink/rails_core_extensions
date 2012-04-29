@@ -1,4 +1,8 @@
 module ActiveRecordCacheAllAttributes
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
   module InstanceMethods
     def clear_attribute_cache
       self.class.cache.delete("#{self.name}.attribute_cache") if self.class.should_cache?
@@ -21,8 +25,7 @@ module ActiveRecordCacheAllAttributes
 
     def generate_attributes_hash
       scope = self
-      scope.ordered if scopes[:ordered]
-      puts scope.all.inspect
+      scope.ordered if respond_to?(:ordered) #scopes[:ordered]
       Hash[scope.all.map { |o| [o.send(self.cache_attributes_by), o.attributes] }]
     end
 
