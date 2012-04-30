@@ -1,8 +1,7 @@
 module ActiveRecordExtensions
   def self.included(base)
-    base.extend(ClassMethods)
+    base.extend ClassMethods
   end
-
   
   module ClassMethods
     # Like establish_connection but postfixes the key with the rails environment
@@ -82,32 +81,23 @@ module ActiveRecordExtensions
       end
     end
 
-    # Add a WeekDays attribute
-    #
-    # By default it will use attribute_bit_array as db field, but this can
-    # be overridden by specifying :db_field => 'somthing_else'
-    def weekdays_field(attribute, options={})
-      db_field = options[:db_field] || attribute.to_s + '_bit_array'
-      self.composed_of(attribute,
-        :class_name => "WeekDays",
-        :mapping    => [[db_field, 'weekdays_int']],
-        :converter  => Proc.new {|field| WeekDays.new(field)}
-      )
-    end
-
     def acts_as_seasonal
       belongs_to :season
       accepts_nested_attributes_for :season
       validates_associated :season
 
-      named_scope :season_on, lambda {|date = Date.current| {
-        :joins => {:season => :date_groups},
-        :conditions => ["date_groups.start_date <= ? AND date_groups.end_date >= ?", date, date]
-      }}
+      named_scope :season_on, lambda { |date|
+        date ||= Date.current # Can't assign in block in Ruby 1.8
+        {
+          :joins => {:season => :date_groups},
+          :conditions => ["date_groups.start_date <= ? AND date_groups.end_date >= ?", date, date]
+        }
+      }
 
-      named_scope :available_from, lambda {|date = Date.current| {
-        :conditions => ["boundary_end >= ?", date]
-      }}
+      named_scope :available_from, lambda { |date|
+        date ||= Date.current # Can't assign in block in Ruby 1.8
+        {:conditions => ["boundary_end >= ?", date]}
+      }
 
       before_save do |object|
         if object.season
@@ -199,7 +189,7 @@ module ActiveRecordExtensions
 
     def all_errors
       errors = {}
-      self.errors.each do |attr, msg|
+      self.errors.each_pair do |attr, msg|
         errors[attr] = if (record_attr = self.send(attr)).is_a?(ActiveRecord::Base)
           record_attr.all_errors
         else

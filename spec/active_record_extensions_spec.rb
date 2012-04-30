@@ -44,9 +44,10 @@ describe RailsCoreExtensions::ActionControllerSortable do
   end
 
   it 'should sort' do
-    NormalController.new.methods.should_not include(:sort)
-    SortableController.new.methods.should include(:sort)
-    RemoteBadSortableController.new.methods.should include(:move_higher)
+    # map(&:to_sym) for ruby 1.8 compatibility
+    NormalController.new.methods.map(&:to_sym).should_not include(:sort)
+    SortableController.new.methods.map(&:to_sym).should include(:sort)
+    RemoteBadSortableController.new.methods.map(&:to_sym).should include(:move_higher)
   end
 end
 
