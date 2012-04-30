@@ -81,31 +81,6 @@ module ActiveRecordExtensions
       end
     end
 
-    def acts_as_seasonal
-      belongs_to :season
-      accepts_nested_attributes_for :season
-      validates_associated :season
-
-      named_scope :season_on, lambda do |date|
-        date ||= Date.current # Can't assign in block in Ruby 1.8
-        {
-          :joins => {:season => :date_groups},
-          :conditions => ["date_groups.start_date <= ? AND date_groups.end_date >= ?", date, date]
-        }
-      end
-
-      named_scope :available_from, lambda do |date|
-        date ||= Date.current # Can't assign in block in Ruby 1.8
-        {:conditions => ["boundary_end >= ?", date]}
-      end
-
-      before_save do |object|
-        if object.season
-          object.boundary_start = object.season.boundary_start
-          object.boundary_end   = object.season.boundary_end
-        end
-      end
-    end
 
     def position_helpers_for(*collections)
       collections.each do |collection|
