@@ -66,7 +66,13 @@ describe ActiveRecordExtensions do
     @second = Model.create!(:name => 'Second')
 
     expected = {'First' => @first.attributes, 'Second' => @second.attributes}
+
+    # Test underlying generate attributes hash method works
     Model.generate_attributes_hash.should == expected
     Model.attribute_cache.should == expected
+
+    # Test after save/destroy it updates
+    @first.destroy
+    Model.attribute_cache.should == {'Second' => @second.attributes}
   end
 end

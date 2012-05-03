@@ -5,7 +5,7 @@ module ActiveRecordCacheAllAttributes
 
   module InstanceMethods
     def clear_attribute_cache
-      self.class.cache.delete("#{self.name}.attribute_cache") if self.class.should_cache?
+      self.class.cache.delete("#{self.class.name}.attribute_cache") if self.class.should_cache?
     end
   end
 
