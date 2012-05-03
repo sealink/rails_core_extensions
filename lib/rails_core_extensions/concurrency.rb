@@ -12,7 +12,7 @@ module Concurrency
     
     
     def concurrency_safe_method_locked?(method)
-      @concurrency_cache.read(concurrency_safe_method_cache_name(method)) == 'locked'
+      concurrency_cache.read(concurrency_safe_method_cache_name(method)) == 'locked'
     end
     
     
