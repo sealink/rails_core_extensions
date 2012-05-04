@@ -93,12 +93,12 @@ module Concurrency
     
     
     def class_method?(method)
-      self.respond_to?(method)
+      self.respond_to?(method, true)
     end
     
     
     def instance_method?(method)
-      self.instance_methods.include?(method.to_s.to_sym)
+      (self.instance_methods + self.private_instance_methods).map(&:to_s).include?(method.to_s)
     end
     
   end

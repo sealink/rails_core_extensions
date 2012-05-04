@@ -75,18 +75,18 @@ describe Concurrency do
   it "should allow checking the concurrency lock for specified class methods" do
     ConcurrencyTest.send(:concurrency_safe, :class_test_method)
     started = false
-    thread = Thread.new { ConcurrencyTest.send(:class_test_method); started = true }
     ConcurrencyTest.concurrency_safe_method_locked?(:class_test_method).should be_false
+    thread = Thread.new { ConcurrencyTest.send(:class_test_method); started = true }
     thread.join
     ConcurrencyTest.concurrency_safe_method_locked?(:class_test_method).should be_true until started
   end
   
-  it "should allow checking the concurrency lock for specified class methods" do
+  it "should allow checking the concurrency lock for specified instance methods" do
     ConcurrencyTest.send(:concurrency_safe, :class_test_method)
     instance = ConcurrencyTest.new
     started = false
-    thread = Thread.new { instance.send(:instance_test_method); started = true }
     instance.concurrency_safe_method_locked?(:instance_test_method).should be_false
+    thread = Thread.new { instance.send(:instance_test_method); started = true }
     thread.join
     instance.concurrency_safe_method_locked?(:instance_test_method).should be_true until started
   end
