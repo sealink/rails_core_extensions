@@ -1,6 +1,6 @@
-module ActionView
-  module Helpers
-    module DateHelper
+module RailsCoreExtensions
+  module HasManyExtensions
+    module Tags
       def hm_check_box(object_name, method, options = {})
         object = options.delete(:object)
         parent = options.delete(:parent) || instance_variable_get(object_name)
@@ -13,7 +13,7 @@ module ActionView
       end
     end
 
-    class FormBuilder
+    module FormBuilder
       def hm_empty_array(method)
         @habtm_fields ||= {}
         @habtm_fields[method] = @object.send(method)
@@ -28,3 +28,5 @@ module ActionView
   end
 end
 
+ActionView::Base.send(:include, RailsCoreExtensions::HasManyExtensions::Tags) if defined?(ActionView::Base)
+ActionView::Helpers::FormBuilder.send(:include, RailsCoreExtensions::HasManyExtensions::FormBuilder) if defined?(ActionView::Base)

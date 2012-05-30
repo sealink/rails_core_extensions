@@ -1,16 +1,13 @@
 module ActionViewExtensions
-  
   def self.included(base)
     base.send :include, InstanceMethods
   end
-  
+
   module InstanceMethods
-    
     def textilize(content)
       super(h(content)).html_safe
     end
-    
-    
+
     # Will recursively parse a Hash and any sub hashes to be normal hashes
     # This is useful when exporting hashes to non ruby systems, which don't understand HashWithIndifferentAccess
     def hashify(element)
@@ -29,8 +26,7 @@ module ActionViewExtensions
         end
       end
     end
-  
-    
+
     # Generates a tooltip with given text
     # text is textilized before display
     def tooltip(hover_element_id, text, title='')
@@ -41,8 +37,7 @@ module ActionViewExtensions
         "showOn: 'mouseover', hideOn: { event: 'mouseout' }, fixed: false});"+
       "</script>"
     end
-  
-  
+
     def expandable_list_for(objects, show = 4)
       first, others = objects[0..(show-1)], objects[show..(objects.size-1)]
       first.each do |o|
@@ -57,13 +52,11 @@ module ActionViewExtensions
         "#{others.size} Others - ".html_safe + link_to_function("Show/Hide", "$('others').toggle()")
       end
     end
-    
-    
+
     def calculate_nested_array
       namespaces + [current_object]
     end
-  
-    
+
     def breadcrumbs(object_or_nested_array = calculate_nested_array, path = objects_path, options = {})
       object = object_or_nested_array.is_a?(Array) ? object_or_nested_array.last : object_or_nested_array
 
@@ -82,7 +75,15 @@ module ActionViewExtensions
         end
       end
     end
-  
+  end
+
+  def boolean_select_tag(name, *args)
+    options = args.extract_options!
+    options ||= {}
+    opts = [['Yes', '1'], ['No', '0']]
+    opts = [blank_option] + opts if options[:include_blank]
+    select_tag name, options_for_select(opts, options[:selected])
   end
 end
+
 ActionView::Base.send(:include, ActionViewExtensions) if defined?(ActionView::Base)
