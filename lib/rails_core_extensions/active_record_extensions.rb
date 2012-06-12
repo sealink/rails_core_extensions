@@ -165,7 +165,7 @@ module ActiveRecordExtensions
     def all_errors
       errors_hash = {}
       self.errors.each do |attr, msg|
-        errors_hash[attr] = if (record_attr = self.send(attr)).is_a?(ActiveRecord::Base)
+        (errors_hash[attr] ||= []) << if self.respond_to?(attr) && (record_attr = self.send(attr)).is_a?(ActiveRecord::Base)
           record_attr.all_errors
         else
           msg
