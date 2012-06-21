@@ -205,7 +205,7 @@ module ActiveRecordExtensions
           if required_field_rule.size == 1
             errors.add(required_field_rule.first, "is required")
           else
-            errors.add_to_base("One of %s is required" % required_field_rule.map(&:humanize).to_sentence)
+            errors.add(:base, "One of %s is required" % required_field_rule.map(&:humanize).to_sentence)
           end
         end
       end

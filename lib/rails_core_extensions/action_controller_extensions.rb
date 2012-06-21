@@ -24,7 +24,7 @@ module ActionControllerExtensions
       redirect_to(objects_path)
     end
   rescue ActiveRecord::ActiveRecordError, QuickTravelException => e
-    current_object.errors.add_to_base("Failed to inactivate: " + e.message)
+    current_object.errors.add(:base, "Failed to inactivate: " + e.message)
     flash[:error] = current_object.errors.full_messages.to_sentence
     redirect_to(objects_path)
   end
