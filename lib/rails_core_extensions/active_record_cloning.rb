@@ -52,7 +52,7 @@ module ActiveRecordCloning
     end
 
     def clone_excluding(excludes=[])
-      cloned = clone
+      cloned = respond_to?(:dup) ? dup : clone
 
       excludes ||= []
       excludes = [excludes] unless excludes.is_a?(Enumerable)
