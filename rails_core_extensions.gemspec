@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   ## the sub! line in the Rakefile
   s.name              = 'rails_core_extensions'
   s.version           = '0.0.1'
-  s.date              = '2012-05-26'
+  s.date              = '2012-07-02'
   s.rubyforge_project = 'rails_core_extensions'
 
   ## Make sure your summary is short. The description may be as long
@@ -66,18 +66,19 @@ Gem::Specification.new do |s|
     gemfiles/rails2.gemfile
     gemfiles/rails3.gemfile
     lib/rails_core_extensions.rb
-    lib/rails_core_extensions/action_controller_extensions.rb
     lib/rails_core_extensions/action_controller_remote_bad_sortable.rb
     lib/rails_core_extensions/action_controller_sortable.rb
     lib/rails_core_extensions/action_view_currency_extensions.rb
     lib/rails_core_extensions/action_view_extensions.rb
     lib/rails_core_extensions/action_view_has_many_extensions.rb
+    lib/rails_core_extensions/activatable.rb
     lib/rails_core_extensions/active_record_cache_all_attributes.rb
     lib/rails_core_extensions/active_record_cloning.rb
     lib/rails_core_extensions/active_record_extensions.rb
     lib/rails_core_extensions/active_record_liquid_extensions.rb
     lib/rails_core_extensions/active_record_migration_extensions.rb
     lib/rails_core_extensions/active_support_concern.rb
+    lib/rails_core_extensions/caches_action_without_host.rb
     lib/rails_core_extensions/concurrency.rb
     lib/rails_core_extensions/date.rb
     lib/rails_core_extensions/date_time.rb
