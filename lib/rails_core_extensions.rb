@@ -4,7 +4,8 @@ module RailsCoreExtensions
   require 'active_record'
   require 'action_controller'
 
-  require 'rails_core_extensions/action_controller_extensions'
+  require 'rails_core_extensions/caches_action_without_host'
+  require 'rails_core_extensions/activatable'
   require 'rails_core_extensions/action_controller_sortable'
   require 'rails_core_extensions/action_controller_remote_bad_sortable'
   require 'rails_core_extensions/action_view_currency_extensions'
@@ -22,8 +23,8 @@ module RailsCoreExtensions
   require 'rails_core_extensions/concurrency'
 
 
-
-  ActionController::Base.send(:include, ActionControllerExtensions)
+  ActionController::Base.send(:include, CachesActionWithoutHost)
+  ActionController::Base.send(:include, Activatable)
   ActionController::Base.send(:include, ActionControllerSortable)
   ActionController::Base.send(:include, ActionControllerRemoteBadSortable)
   ActiveRecord::Base.send(:include, ActiveRecordCloning)
