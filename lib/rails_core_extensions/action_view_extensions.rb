@@ -59,23 +59,45 @@ module ActionViewExtensions
 
     def breadcrumbs(object_or_nested_array = calculate_nested_array, path = objects_path, options = {})
       object = object_or_nested_array.is_a?(Array) ? object_or_nested_array.last : object_or_nested_array
-
-      link_to(object.class.table_name.titleize, path) + ': ' + if object.new_record?
-        'New'
-      else
-        if options[:index]
-          (object.respond_to?(:name) ? object.name : object.to_s)
-        else
-          text = object.respond_to?(:name) && !object.name.blank? ? object.name : object.to_s
-          if controller.respond_to?(:show) && params[:action] == 'edit'
-            link_to text, objects_path
+      name = object.respond_to?(:name) && !object.name.blank? ? object.name : object.to_s
+      capture_haml do
+        haml_tag :ul, :class =>'breadcrumb' do
+          haml_tag :li do
+            haml_concat link_to(object.class.table_name.titleize, path)
+            haml_tag :span, '/'
+          end
+          if object.new_record?
+            haml_tag :li, :class => 'active' do
+              haml_concat 'New'
+              haml_concat name
+            end
           else
-            text
-          end.to_s + (params[:action] == 'edit' ? ': Edit' : '')
+            if options[:index]
+              haml_tag :li do
+                haml_concat name
+                haml_tag :span, '/'
+              end
+            else
+              if controller.respond_to?(:show) && params[:action] == 'edit'
+                haml_tag :li do
+                  haml_concat link_to(name, objects_path)
+                  haml_tag :span, '/'
+                end
+              else
+                haml_tag :li do
+                  haml_concat name
+                  haml_tag :span, '/'
+                end
+              end
+              if (params[:action] == 'edit')
+                haml_tag :li, 'Edit', :class => 'active'
+              end
+            end
+          end
         end
-      end
-    end
-  end
+      end # end haml_tag
+    end # end breadcrumbs
+  end # end InstanceMethods
 
   def boolean_select_tag(name, *args)
     options = args.extract_options!
