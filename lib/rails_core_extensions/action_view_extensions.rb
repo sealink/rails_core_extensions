@@ -75,7 +75,6 @@ module ActionViewExtensions
             if options[:index]
               haml_tag :li do
                 haml_concat name
-                haml_tag :span, '/'
               end
             else
               if controller.respond_to?(:show) && params[:action] == 'edit'
