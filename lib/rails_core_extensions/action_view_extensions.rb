@@ -59,7 +59,7 @@ module ActionViewExtensions
 
     def breadcrumbs(object_or_nested_array = calculate_nested_array, path = objects_path, options = {})
       object = object_or_nested_array.is_a?(Array) ? object_or_nested_array.last : object_or_nested_array
-      name = object.respond_to?(:name) && !object.name.blank? ? object.name : object.to_s
+      name = (object.respond_to?(:name) && !object.name.blank? ? object.name : object.to_s) unless object.new_record?
       capture_haml do
         haml_tag :ul, :class =>'breadcrumb' do
           haml_tag :li do
@@ -69,7 +69,6 @@ module ActionViewExtensions
           if object.new_record?
             haml_tag :li, :class => 'active' do
               haml_concat 'New'
-              haml_concat name
             end
           else
             if options[:index]
