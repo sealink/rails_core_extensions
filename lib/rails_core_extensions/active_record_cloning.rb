@@ -52,7 +52,8 @@ module ActiveRecordCloning
     end
 
     def clone_excluding(excludes=[])
-      cloned = respond_to?(:dup) ? dup : clone
+      method = ActiveRecord::Base.instance_methods(false).include?(:clone) ? :clone : :dup
+      cloned = send(method)
 
       excludes ||= []
       excludes = [excludes] unless excludes.is_a?(Enumerable)
