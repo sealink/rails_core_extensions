@@ -69,8 +69,15 @@ module ActiveRecordExtensions
     end
 
     def optional_fields(*possible_fields)
-      cattr_accessor :enabled_fields
-      self.enabled_fields = Array.wrap(Setting.send("#{self.to_s.underscore}_optional_fields")).map { |f| f.to_s.to_sym }
+      class_eval <<-EVAL
+        def self.enabled_fields
+          @@enabled_fields ||= Array.wrap(ActiveSetting::Setting.send("#{self.to_s.underscore}_optional_fields")).map { |f| f.to_s.to_sym }
+        end
+
+        def self.enabled_fields=(fields)
+          @@enabled_fields = fields
+        end
+      EVAL
       
       possible_fields.each do |field|
         instance_eval <<-EVAL
