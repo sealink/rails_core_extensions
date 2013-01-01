@@ -3,6 +3,7 @@ rvm:
   - 1.8.7
   - 1.9.2
   - 1.9.3
+  - 2.0.0
 script: "bundle exec rake coverage"
 gemfile:
   - gemfiles/rails2.gemfile
@@ -10,6 +11,8 @@ gemfile:
 matrix:
   exclude:
     - rvm: 1.9.3
+      gemfile: gemfiles/rails2.gemfile
+    - rvm: 2.0.0
       gemfile: gemfiles/rails2.gemfile
 notifications:
   email:
