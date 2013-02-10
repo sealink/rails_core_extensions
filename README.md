@@ -1,6 +1,10 @@
 Rails Core Extensions 
 ====================
 
+[![Build Status](https://travis-ci.org/sealink/rails_core_extensions.png?branch=master)](https://travis-ci.org/sealink/rails_core_extensions)
+[![Build Status](https://gemnasium.com/sealink/rails_core_extensions.png?travis)](https://gemnasium.com/sealink/rails_core_extensions)
+[![Build Status](https://codeclimate.com/github/sealink/rails_core_extensions.png)](https://codeclimate.com/github/sealink/rails_core_extensions)
+
 # DESCRIPTION
 
 Extends the core rails classes with helpful functions
