@@ -20,7 +20,7 @@ module Activatable
         flash[:success] = "#{current_object} #{params[:active] ? 'activated' : 'inactivated'}"
         redirect_to(objects_path)
       end
-    rescue ActiveRecord::ActiveRecordError, QuickTravelException => e
+    rescue ActiveRecord::ActiveRecordError => e
       current_object.errors.add(:base, "Failed to inactivate: " + e.message)
       flash[:error] = current_object.errors.full_messages.to_sentence
       redirect_to(objects_path)

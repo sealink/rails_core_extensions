@@ -56,7 +56,7 @@ module RailsCoreExtensions
             page["#{dom_prefix}_#{other_object.id}"].highlight
           end
         end
-      rescue QuickTravelException, ActiveRecord::ActiveRecordError => e
+      rescue ActiveRecord::ActiveRecordError => e
         render :update do |page|
           page.alert(e.message)
         end
