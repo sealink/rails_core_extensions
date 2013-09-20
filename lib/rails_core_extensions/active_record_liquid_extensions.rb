@@ -23,8 +23,8 @@ module RailsCoreExtensions
           Liquid::Template.parse(#{field})
         end
 
-        def render_#{field}(options)
-          parsed_#{field}.render(options)
+        def render_#{field}(*args)
+          parsed_#{field}.render!(*args)
         end
       CODE
     end
