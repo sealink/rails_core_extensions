@@ -15,6 +15,7 @@ module RailsCoreExtensions
   require 'rails_core_extensions/active_record_cache_all_attributes'
   require 'rails_core_extensions/active_record_extensions'
   require 'rails_core_extensions/active_record_liquid_extensions'
+  require 'rails_core_extensions/active_record_4_dynamic_finders_backport'
   require 'rails_core_extensions/date_time'
   require 'rails_core_extensions/date'
   require 'rails_core_extensions/time_with_zone'
@@ -30,5 +31,6 @@ module RailsCoreExtensions
   ActiveRecord::Base.send(:include, ActiveRecordExtensions)
   ActiveRecord::Base.send(:include, RailsCoreExtensions::ActiveRecordLiquidExtensions)
   ActiveRecord::Base.send(:include, ActiveRecordExtensions::InstanceMethods)
+  ActiveRecord::Base.send(:extend, ActiveRecord4DynamicFindersBackport) if ::ActiveRecord::VERSION::MAJOR == 3
 end
 
