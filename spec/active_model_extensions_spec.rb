@@ -17,7 +17,7 @@ describe ActiveModelExtensions do
       validate :validate_required
 
       def validate_required
-        validate_required_fields 'name'
+        validate_required_fields ['name']
       end
     end
   end
@@ -50,7 +50,22 @@ describe ActiveModelExtensions do
         @name = options[:name]
       end
 
-      validate_mandatory_fields lambda { 'name' }
+      validate_mandatory_fields lambda { ['name'] }
+    end
+
+    class ActiveModelExtensionsTestModel3 < ModelBase
+      include ActiveModelExtensions::Validations
+
+      attr_accessor :name, :phone, :mobile
+
+      def initialize(options = {})
+        @name = options[:name]
+        @phone = options[:phone]
+        @mobile = options[:mobile]
+
+      end
+
+      validate_mandatory_fields lambda { ['name', 'phone or mobile'] }
     end
   end
 
@@ -66,5 +81,29 @@ describe ActiveModelExtensions do
   context 'when model complete' do
     subject { klass.new(:name => 'Valid') }
     it { should be_valid }
+  end
+
+  context 'with or case' do
+    let(:klass) { ActiveModelExtensionsTestModel3 }
+
+    context 'when model has none of conditions' do
+      subject { klass.new(:name => 'Valid') }
+      it { should_not be_valid }
+    end
+
+    context 'when model has first of conditions' do
+      subject { klass.new(:name => 'Valid', :phone => '555-1234') }
+      it { should be_valid }
+    end
+
+    context 'when model has second of conditions' do
+      subject { klass.new(:name => 'Valid', :mobile => '555-1234') }
+      it { should be_valid }
+    end
+
+    context 'when model has all conditions' do
+      subject { klass.new(:name => 'Valid', :phone => '555-1234', :mobile => '555-4321') }
+      it { should be_valid }
+    end
   end
 end

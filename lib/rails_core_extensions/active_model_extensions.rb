@@ -16,18 +16,18 @@ module ActiveModelExtensions
     #  - the name of a required field
     #  - OR a set of required field names spearated by 'or' (where only ONE is required)
     #
-    def validate_required_fields(required_field_string)
-      return if required_field_string.strip.blank?
+    def validate_required_fields(required_fields)
+      return if required_fields.empty?
 
-      # Comma separated list of field sets, where each field set *may* contain 'or'
-      required_field_rules = required_field_string.split(',').map { |f| f.split(" or ").map(&:strip) }
-
-      required_field_rules.each do |required_field_rule|
-        if required_field_rule.all? { |field| self.send(field).to_s.blank? }
-          if required_field_rule.size == 1
-            errors.add(required_field_rule.first, "is required")
-          else
-            errors.add(:base, "One of %s is required" % required_field_rule.map(&:humanize).to_sentence)
+      required_fields.each do |required_field|
+        if required_field.include? ' or '
+          fields = required_field.split(' or ')
+          if fields.all? { |field| send(field).to_s.blank? }
+            errors.add(:base, "One of %s is required" % fields.map(&:humanize).to_sentence)
+          end
+        else
+          if send(required_field).to_s.blank?
+            errors.add(required_field, "is required")
           end
         end
       end
