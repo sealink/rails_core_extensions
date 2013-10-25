@@ -50,6 +50,8 @@ Gem::Specification.new do |s|
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('activerecord', [">= 2.3.0", "< 5.0.0"])
   s.add_dependency('actionpack', [">= 2.3.0", "< 5.0.0"])
+  s.add_development_dependency('rspec')
+  s.add_development_dependency('activerecord-nulldb-adapter')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development

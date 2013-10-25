@@ -11,6 +11,7 @@ module RailsCoreExtensions
   require 'rails_core_extensions/action_view_currency_extensions'
   require 'rails_core_extensions/action_view_has_many_extensions'
   require 'rails_core_extensions/action_view_extensions'
+  require 'rails_core_extensions/active_model_extensions'
   require 'rails_core_extensions/active_record_cloning'
   require 'rails_core_extensions/active_record_cache_all_attributes'
   require 'rails_core_extensions/active_record_extensions'

@@ -26,3 +26,12 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
 end
+
+DB_FILE = 'tmp/test_db'
+def connect_to_sqlite
+  FileUtils.mkdir_p File.dirname(DB_FILE)
+  FileUtils.rm_f DB_FILE
+
+  ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => DB_FILE
+  load('spec/schema.rb')
+end

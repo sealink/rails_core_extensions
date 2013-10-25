@@ -1,12 +1,6 @@
 require 'spec_helper'
 
-DB_FILE = 'tmp/test_db'
-FileUtils.mkdir_p File.dirname(DB_FILE)
-FileUtils.rm_f DB_FILE
-
-ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => DB_FILE
-
-load('spec/schema.rb')
+connect_to_sqlite
 
 describe "ActiveRecord::Base" do
   class Model < ActiveRecord::Base
