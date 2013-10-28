@@ -25,7 +25,7 @@ module ActiveRecordCacheAllAttributes
 
     def generate_attributes_hash
       scope = self
-      scope.ordered if respond_to?(:ordered) #scopes[:ordered]
+      scope = scope.ordered if respond_to?(:ordered)
       Hash[scope.all.map { |o| [o.send(self.cache_attributes_by), o.attributes] }]
     end
 
