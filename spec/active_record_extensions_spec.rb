@@ -7,7 +7,7 @@ describe "ActiveRecord::Base" do
   end
 
   before do
-    @mock_model = mock("mock model")
+    @mock_model = double("mock model")
   end
 
   it "should create a new record if new_or_update! is passed a hash without an :id" do
@@ -51,8 +51,8 @@ describe ActiveRecordExtensions do
   end
 
   before do
-    Model.stub!(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
-    Model.stub!(:should_cache?).and_return(true)
+    Model.stub(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+    Model.stub(:should_cache?).and_return(true)
   end
 
   it 'should cache all attributes' do
