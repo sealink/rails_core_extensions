@@ -30,6 +30,7 @@ module RailsCoreExtensions
   ActionController::Base.send(:include, ActionControllerRemoteBadSortable)
   ActiveRecord::Base.send(:include, ActiveRecordCloning)
   ActiveRecord::Base.send(:include, ActiveRecordExtensions)
+  ActiveRecord::Base.send(:include, ActiveModelExtensions::Validations)
   ActiveRecord::Base.send(:include, RailsCoreExtensions::ActiveRecordLiquidExtensions)
   ActiveRecord::Base.send(:include, ActiveRecordExtensions::InstanceMethods)
   ActiveRecord::Base.send(:extend, ActiveRecord4DynamicFindersBackport) if ::ActiveRecord::VERSION::MAJOR == 3
