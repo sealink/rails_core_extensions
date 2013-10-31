@@ -1,4 +1,3 @@
-require 'active_model'
 module ActiveModelExtensions
   module Validations
     def self.included(base)

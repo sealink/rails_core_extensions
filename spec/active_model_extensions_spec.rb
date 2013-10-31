@@ -1,3 +1,5 @@
+begin
+require 'active_model'
 require 'rails_core_extensions/active_model_extensions'
 require 'spec_helper_model_base'
 
@@ -106,4 +108,7 @@ describe ActiveModelExtensions do
       it { should be_valid }
     end
   end
+end
+
+rescue LoadError # Spec doesn't run for rails 2
 end
