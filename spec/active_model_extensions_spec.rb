@@ -17,7 +17,7 @@ describe ActiveModelExtensions do
       validate :validate_required
 
       def validate_required
-        validate_required_fields ['name']
+        CustomPresenceValidator.new(:attributes => lambda { ['name'] }).validate(self)
       end
     end
   end
@@ -50,7 +50,7 @@ describe ActiveModelExtensions do
         @name = options[:name]
       end
 
-      validate_mandatory_fields lambda { ['name'] }
+      validate_presence_by_custom_rules lambda { ['name'] }
     end
 
     class ActiveModelExtensionsTestModel3 < ModelBase
@@ -65,7 +65,7 @@ describe ActiveModelExtensions do
 
       end
 
-      validate_mandatory_fields lambda { ['name', 'phone or mobile'] }
+      validate_presence_by_custom_rules lambda { ['name', 'phone or mobile'] }
     end
   end
 
