@@ -40,7 +40,7 @@ module RailsCoreExtensions
         yield o
       end
       if others
-        haml_tag 'div', :id => 'others', :style => 'display: none' do
+        content_tag 'div', :id => 'others', :style => 'display: none' do
           others.each do |o|
             yield o
           end
@@ -49,49 +49,6 @@ module RailsCoreExtensions
       end
     end
 
-    def calculate_nested_array
-      namespaces + [current_object]
-    end
-
-    def breadcrumbs(object_or_nested_array = calculate_nested_array, path = objects_path, options = {})
-      object = object_or_nested_array.is_a?(Array) ? object_or_nested_array.last : object_or_nested_array
-      name = (object.respond_to?(:name) && !object.name.blank? ? object.name : object.to_s) unless object.new_record?
-      capture_haml do
-        haml_tag :ul, :class =>'breadcrumb' do
-          haml_tag :li do
-            haml_concat link_to(object.class.table_name.titleize, path)
-            haml_tag :span, '/'
-          end
-          if object.new_record?
-            haml_tag :li, :class => 'active' do
-              haml_concat 'New'
-            end
-          else
-            if options[:index]
-              haml_tag :li do
-                haml_concat name
-              end
-            else
-              if controller.respond_to?(:show) && params[:action] == 'edit'
-                haml_tag :li do
-                  haml_concat link_to(name, objects_path)
-                  haml_tag :span, '/'
-                end
-              else
-                haml_tag :li do
-                  haml_concat name
-                  haml_tag :span, '/'
-                end
-              end
-              if (params[:action] == 'edit')
-                haml_tag :li, 'Edit', :class => 'active'
-              end
-            end
-          end
-        end
-      end # end haml_tag
-    end # end breadcrumbs
-
     def boolean_select_tag(name, *args)
       options = args.extract_options!
       options ||= {}
@@ -99,7 +56,7 @@ module RailsCoreExtensions
       opts = [blank_option] + opts if options[:include_blank]
       select_tag name, options_for_select(opts, options[:selected])
     end
-  end # end InstanceMethods
+  end
 end
 
 ActionView::Base.send(:include, RailsCoreExtensions::ActionViewExtensions) if defined?(ActionView::Base)
