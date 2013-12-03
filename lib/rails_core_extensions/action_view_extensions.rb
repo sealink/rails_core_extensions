@@ -1,9 +1,5 @@
-module ActionViewExtensions
-  def self.included(base)
-    base.send :include, InstanceMethods
-  end
-
-  module InstanceMethods
+module RailsCoreExtensions
+  module ActionViewExtensions
     def textilize(content)
       super(h(content)).html_safe
     end
@@ -95,15 +91,15 @@ module ActionViewExtensions
         end
       end # end haml_tag
     end # end breadcrumbs
-  end # end InstanceMethods
 
-  def boolean_select_tag(name, *args)
-    options = args.extract_options!
-    options ||= {}
-    opts = [['Yes', '1'], ['No', '0']]
-    opts = [blank_option] + opts if options[:include_blank]
-    select_tag name, options_for_select(opts, options[:selected])
-  end
+    def boolean_select_tag(name, *args)
+      options = args.extract_options!
+      options ||= {}
+      opts = [['Yes', '1'], ['No', '0']]
+      opts = [blank_option] + opts if options[:include_blank]
+      select_tag name, options_for_select(opts, options[:selected])
+    end
+  end # end InstanceMethods
 end
 
-ActionView::Base.send(:include, ActionViewExtensions) if defined?(ActionView::Base)
+ActionView::Base.send(:include, RailsCoreExtensions::ActionViewExtensions) if defined?(ActionView::Base)
