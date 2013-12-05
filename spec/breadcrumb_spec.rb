@@ -10,6 +10,9 @@ describe RailsCoreExtensions::Breadcrumb do
       include ActionView::Helpers::CaptureHelper
       attr_accessor :output_buffer
       include RailsCoreExtensions::Breadcrumb
+
+      def inherited_resource?; true; end
+      def calculate_parent; nil; end
     end
   end
 

@@ -20,4 +20,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'activerecord-nulldb-adapter'
+
+  # breadcrumbs optional dependencies
+  spec.add_development_dependency('make_resourceful')
+  spec.add_development_dependency('inherited_resources')
 end
