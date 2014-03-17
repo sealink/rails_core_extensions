@@ -2,27 +2,26 @@ module RailsCoreExtensions
 
   module Breadcrumb
 
-    def breadcrumbs(object_or_nested_array = nil, path = nil, context = nil)
-      breadcrumbs_builder_for(object_or_nested_array, path, context).breadcrumbs
+    def breadcrumbs(object_or_nested_array = nil)
+      breadcrumbs_builder_for(object_or_nested_array).breadcrumbs
     end
 
 
     private
 
-    def breadcrumbs_builder_for(object_or_nested_array, path, context)
-      BreadcrumbsBuilder.new(self, object_or_nested_array, path, context)
+    def breadcrumbs_builder_for(object_or_nested_array)
+      BreadcrumbsBuilder.new(self, object_or_nested_array)
     end
 
 
     class BreadcrumbsBuilder
 
-      attr_reader :view, :object_or_nested_array, :path, :context
+      attr_reader :view, :object_or_nested_array, :path
 
-      def initialize(view, object_or_nested_array = nil, path = nil, context = nil)
+      def initialize(view, object_or_nested_array = nil)
         @view                     =   view
         @object_or_nested_array   =   object_or_nested_array ||   path_builder.nested_array
-        @path                     =   path                   ||   path_builder.collection_url
-        @context                  =   context                ||   {}
+        @path                     =   path_builder.collection_url
       end
 
 
@@ -33,12 +32,8 @@ module RailsCoreExtensions
       end
 
 
-      def breadcrumb_for_object
-        if can_show?
-          breadcrumb_for_object_link
-        else
-          breadcrumb_for_object_name
-        end
+      def breadcrumb_for_object_link
+        breadcrumb_for link_to_object
       end
 
 
@@ -47,7 +42,7 @@ module RailsCoreExtensions
       def breadcrumb_for_parent
         parent = path_builder.parent
         return ''.html_safe unless parent
-        BreadcrumbsBuilder.new(view, parent, path, :can_show => true).breadcrumb_for_object
+        BreadcrumbsBuilder.new(view, parent).breadcrumb_for_object_link
       end
 
 
@@ -65,6 +60,15 @@ module RailsCoreExtensions
       end
 
 
+      def breadcrumb_for_object
+        if can_show?
+          breadcrumb_for_object_link
+        else
+          breadcrumb_for_object_name
+        end
+      end
+
+
       def breadcrumb_for(content, options = {})
         view.content_tag :li, content, options
       end
@@ -75,24 +79,19 @@ module RailsCoreExtensions
       end
 
 
-      def breadcrumb_for_object_link
-        breadcrumb_for link_to_object
-      end
-
-
       def link_to_object
         view.link_to object_name.html_safe, object_or_nested_array
       end
 
 
       def can_show?
-        (context[:can_show] || view.controller.respond_to?(:show))
+        view.controller.respond_to?(:show)
       end
 
 
       def action
-        return 'new'    if object.new_record?
-        context[:action] || view.params[:action]
+        return 'new' if object.new_record?
+        view.params[:action]
       end
 
 
