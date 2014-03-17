@@ -4,25 +4,37 @@ require 'action_view'
 
 describe RailsCoreExtensions::Breadcrumb do
   before do
-    class TestModel1
+    class MockView
       include ActionView::Helpers::TagHelper
       include ActionView::Helpers::UrlHelper
       include ActionView::Helpers::CaptureHelper
       attr_accessor :output_buffer
       include RailsCoreExtensions::Breadcrumb
 
-      def inherited_resource?; true; end
-      def parent; nil; end
-      def parent_object; nil; end
+      attr_reader :params
+
+      def initialize(params)
+        @params = params
+      end
     end
   end
 
-  after { Object.send(:remove_const, 'TestModel1') }
+  after { Object.send(:remove_const, 'MockView') }
 
-  subject { TestModel1.new }
-  let(:helper_context) {
-    {:can_show => true, :action => action}
-  }
+  subject { MockView.new(:action => action) }
+
+  let(:objects_path) { '/users' }
+  let(:parent) { nil }
+
+  before do
+    subject.stub(:objects_path).and_return(objects_path)
+    subject.stub(:collection_url).and_return(objects_path)
+
+    subject.stub(:parent).and_return(parent)
+    subject.stub(:parent_object).and_return(parent)
+
+    subject.stub(:controller).and_return(double(:controller, :show => nil))
+  end
 
   context '#breadcrumbs (* = link)' do
     let(:user_class) { double(:table_name => 'users', :model_name => double(:singular_route_key => 'user')) }
@@ -32,7 +44,7 @@ describe RailsCoreExtensions::Breadcrumb do
       let(:new_record) { true }
 
       it 'should breadcrumb: *Users / New' do
-        result = subject.breadcrumbs(user, '/users', helper_context)
+        result = subject.breadcrumbs(user)
         result.should be_html_safe
         result.should ==
           %q(<ul class="breadcrumb"><li><a href="/users">Users</a></li><li class="active">New</li></ul>)
@@ -47,7 +59,7 @@ describe RailsCoreExtensions::Breadcrumb do
         it 'should breadcrumb: *Users / *Alice / Edit' do
           subject.should_receive(:link_to).with('Users', '/users').and_return('<a href="/users">Users</a>'.html_safe)
           subject.should_receive(:link_to).with('Alice', user).and_return('<a href="/users/1">Alice</a>'.html_safe)
-          result = subject.breadcrumbs(user, '/users', helper_context)
+          result = subject.breadcrumbs(user)
           result.should be_html_safe
           result.should ==
             %q(<ul class="breadcrumb"><li><a href="/users">Users</a></li><li><a href="/users/1">Alice</a></li><li class="active">Edit</li></ul>)
@@ -57,7 +69,7 @@ describe RailsCoreExtensions::Breadcrumb do
       context 'when showing' do
         let(:action) { 'show' }
         it 'should breadcrumb: *Users / Alice' do
-          result = subject.breadcrumbs(user, '/users', helper_context)
+          result = subject.breadcrumbs(user)
           result.should be_html_safe
           result.should ==
             %q(<ul class="breadcrumb"><li><a href="/users">Users</a></li><li>Alice</li></ul>)
