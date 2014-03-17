@@ -12,7 +12,8 @@ describe RailsCoreExtensions::Breadcrumb do
       include RailsCoreExtensions::Breadcrumb
 
       def inherited_resource?; true; end
-      def calculate_parent; nil; end
+      def parent; nil; end
+      def parent_object; nil; end
     end
   end
 
