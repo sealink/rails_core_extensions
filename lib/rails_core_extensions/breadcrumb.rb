@@ -150,7 +150,7 @@ module RailsCoreExtensions
       end
 
       def parent
-        return view.parent if view.parent?
+        return view.parent if view.respond_to?(:parent)
         view.parent_object
       end
     end
