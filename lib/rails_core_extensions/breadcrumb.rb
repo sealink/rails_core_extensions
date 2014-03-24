@@ -127,7 +127,7 @@ module RailsCoreExtensions
 
     PathBuilder = Struct.new(:view) do
       def nested_array
-        (view.namespaces + [parent] + [view.current_object]).compact
+        (namespaces + [parent] + [view.current_object]).compact
       end
 
       def collection_url
@@ -136,6 +136,11 @@ module RailsCoreExtensions
 
       def parent
         view.parent_object
+      end
+
+      def namespaces
+        return [] unless view.respond_to?(:namespaces)
+        Array(view.namespaces)
       end
     end
 
