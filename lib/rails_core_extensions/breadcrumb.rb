@@ -147,7 +147,11 @@ module RailsCoreExtensions
 
     InheritedResourcesPathBuilder = Struct.new(:view) do
       def nested_array
-        [parent, view.resource].compact
+        if view.respond_to? :calculate_nested_array
+          view.calculate_nested_array
+        else
+          [parent, view.resource].compact
+        end
       end
 
       def collection_url
