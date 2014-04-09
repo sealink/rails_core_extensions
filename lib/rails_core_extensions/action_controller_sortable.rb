@@ -25,7 +25,7 @@ module RailsCoreExtensions
         end
 
         klass = controller_name.classify.constantize
-        collection = klass.ordered
+        collection = klass.order(:position)
         collection = collection.scoped(:conditions => params.slice(scope.to_sym)) if scope
 
         sort_collection(collection, params_collection)
