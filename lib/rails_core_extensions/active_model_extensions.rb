@@ -19,7 +19,7 @@ module ActiveModelExtensions
     #
     class CustomPresenceValidator < ActiveModel::Validator
       def validate(record)
-        required_fields = Array.wrap(@options[:attributes]).first.call
+        required_fields = Array.wrap(@options[:attributes]).first.call || []
         return if required_fields.empty?
 
         required_fields.flatten.each do |required_field|

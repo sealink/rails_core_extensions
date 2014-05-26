@@ -69,6 +69,13 @@ describe ActiveModelExtensions do
 
       validate_presence_by_custom_rules lambda { ['name', 'phone or mobile'] }
     end
+
+    class ActiveModelExtensionsTestModelNil < ModelBase
+      include ActiveModelExtensions::Validations
+      def initialize(options = {})
+      end
+      validate_presence_by_custom_rules lambda { nil }
+    end
   end
 
   after { Object.send(:remove_const, klass.name) }
@@ -105,6 +112,15 @@ describe ActiveModelExtensions do
 
     context 'when model has all conditions' do
       subject { klass.new(:name => 'Valid', :phone => '555-1234', :mobile => '555-4321') }
+      it { should be_valid }
+    end
+  end
+
+  context 'with nil requirements' do
+    let(:klass) { ActiveModelExtensionsTestModelNil }
+
+    context 'when model valid' do
+      subject { klass.new(:name => 'Valid') }
       it { should be_valid }
     end
   end
