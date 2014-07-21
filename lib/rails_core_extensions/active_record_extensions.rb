@@ -199,14 +199,6 @@ module ActiveRecordExtensions
     end
 
 
-    # Generate attributes in a hash, leaning on active records serializer,
-    #
-    # You can use :include, :except/:only, :methods like in to_json
-    def to_hash(options={})
-      ActiveRecord::Serialization::Serializer.new(self, options).serializable_record
-    end
-
-
     # A unique id - even if you are unsaved!
     def unique_id
       id || @generated_dom_id || (@generated_dom_id = Time.now.to_f.to_s.gsub('.', '_'))
