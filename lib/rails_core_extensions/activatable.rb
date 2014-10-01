@@ -5,26 +5,34 @@ module Activatable
   end
 
   module ClassMethods
+
     def activatable
       include Activatable::InstanceMethods
     end
+
   end
 
   module InstanceMethods
+
     def activate(success_block = nil)
-      resource.active = params[:active] || false
+      resource.active = params[:active].presence || false
+      action = resource.active ? 'activate' : 'inactivate'
+
       resource.save!
-      if success_block
-        success_block.call
-      else
-        flash[:success] = "#{resource} #{params[:active] ? 'activated' : 'inactivated'}"
+
+      success_block ||= -> {
+        flash[:success] = "#{resource} #{action}d"
         redirect_to(collection_path)
-      end
+      }
+
+      success_block.call
+
     rescue ActiveRecord::ActiveRecordError => e
-      resource.errors.add(:base, "Failed to inactivate: " + e.message)
+      resource.errors.add(:base, "Failed to #{action}: " + e.message)
       flash[:error] = resource.errors.full_messages.to_sentence
       redirect_to(collection_path)
     end
+
   end
 
 end
