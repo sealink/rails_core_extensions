@@ -33,15 +33,10 @@ describe RailsCoreExtensions::ActionControllerSortable do
     sortable
   end
 
-  class RemoteBadSortableController < ActionController::Base
-    remote_bad_sortable
-  end
-
   it 'should sort' do
     # map(&:to_sym) for ruby 1.8 compatibility
     NormalController.new.methods.map(&:to_sym).should_not include(:sort)
     SortableController.new.methods.map(&:to_sym).should include(:sort)
-    RemoteBadSortableController.new.methods.map(&:to_sym).should include(:move_higher)
   end
 end
 

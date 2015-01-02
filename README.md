@@ -14,7 +14,7 @@ Extends the core rails classes with helpful functions
 Add to your Gemfile:
 gem 'rails_core_extensions'
 
-This gems contains many extensions including 2 sort extensions:
+This gems contains many extensions including a sort extension:
 
 Sortable
 
@@ -59,8 +59,3 @@ So in the above if you want to upgrade category_id 6, you could submit
 scope=category_id&category_id=6
 
 along with type_body[]=7.. for all the types in category 6
-
-Remote Bad Sortable (Not recommended)
-
-This allows you to sort items one-at-a-time moving only one position at a time.
-
