@@ -8,9 +8,9 @@
 require 'rubygems'
 require 'bundler/setup'
 
-MINIMUM_COVERAGE = 60
+MINIMUM_COVERAGE = 70
 
-if ENV['COVERAGE']
+unless ENV['COVERAGE'] == 'off'
   require 'simplecov'
   require 'simplecov-rcov'
   SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter

@@ -41,6 +41,34 @@ describe RailsCoreExtensions::ActionControllerSortable do
 end
 
 describe ActiveRecordExtensions do
+  class Parent < ActiveRecord::Base
+    has_many :children
+    def transfer_children_from(old_parent)
+      transfer_records(Child, [old_parent])
+    end
+  end
+  class Child < ActiveRecord::Base
+    belongs_to :parent
+  end
+
+  let(:old) { Parent.create! }
+  let(:new) { Parent.create! }
+
+  before do
+    new.children.create!
+    old.children.create!
+  end
+
+  it 'should transfer records' do
+    new.children.size.should == 1
+    old.children.size.should == 1
+    new.transfer_children_from(old)
+    new.reload.children.size.should == 2
+    old.reload.children.size.should == 0
+  end
+end
+
+describe ActiveRecordExtensions do
   class Model < ActiveRecord::Base
     cache_all_attributes :by => 'name'
   end
