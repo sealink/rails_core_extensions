@@ -189,16 +189,6 @@ module ActiveRecordExtensions
     alias_method :to_liquid, :to_drop
 
 
-    def self.find_model_by_attribute(attribute)
-      return self if self.column_names.include?(attribute.to_s)
-      found = nil
-      reflect_on_all_associations do |association|
-        found = association.find_model_by_attribute(attribute)
-      end
-      found
-    end
-
-
     # A unique id - even if you are unsaved!
     def unique_id
       id || @generated_dom_id || (@generated_dom_id = Time.now.to_f.to_s.gsub('.', '_'))
