@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'activerecord-nulldb-adapter'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'simplecov-rcov'
+  spec.add_development_dependency 'coveralls'
   spec.add_development_dependency 'sqlite3'
 
   # breadcrumbs optional dependencies
