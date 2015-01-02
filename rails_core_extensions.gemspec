@@ -20,6 +20,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'activerecord-nulldb-adapter'
+  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'simplecov-rcov'
+  spec.add_development_dependency 'sqlite3'
 
   # breadcrumbs optional dependencies
   spec.add_development_dependency('make_resourceful')
