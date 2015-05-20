@@ -69,16 +69,18 @@ module ActiveRecordExtensions
     end
 
     def optional_fields(*possible_fields)
-      class_eval <<-EVAL
-        def self.enabled_fields
-          @@enabled_fields = Array.wrap(Setting.send("#{self.to_s.underscore}_optional_fields")).map { |f| f.to_s.to_sym }
+      @optional_fields_loader = possible_fields.pop if possible_fields.last.is_a?(Proc)
+
+      class << self
+        def enabled_fields
+          @enabled_fields || @optional_fields_loader.try(:call)
         end
 
-        def self.enabled_fields=(fields)
-          @@enabled_fields = fields
+        def enabled_fields=(fields)
+          @enabled_fields = fields
         end
-      EVAL
-      
+      end
+
       possible_fields.each do |field|
         instance_eval <<-EVAL
           def #{field}_enabled?
