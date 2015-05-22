@@ -2,6 +2,22 @@ require 'spec_helper'
 
 connect_to_sqlite
 
+describe "optional_fields" do
+  class Model < ActiveRecord::Base
+    optional_fields :name, :age, -> { [:age] }
+  end
+
+  it 'should know what fields are optional' do
+    expect(Model).to be_age_enabled
+    expect(Model).to_not be_name_enabled
+  end
+
+  it 'should be able to change optional fields' do
+    Model.enabled_fields = [:age, :name]
+    expect(Model).to be_name_enabled
+  end
+end
+
 describe "ActiveRecord::Base" do
   class Model < ActiveRecord::Base
   end

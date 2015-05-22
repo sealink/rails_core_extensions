@@ -8,7 +8,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-MINIMUM_COVERAGE = 70
+MINIMUM_COVERAGE = 71
 
 unless ENV['COVERAGE'] == 'off'
   require 'simplecov'
