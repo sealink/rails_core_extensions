@@ -6,7 +6,9 @@ connect_to_sqlite
 
 describe RailsCoreExtensions::Sortable do
   before(:all) do
-    Model = Class.new(ActiveRecord::Base)
+    Model = Class.new(ActiveRecord::Base) do
+      default_scope -> { order(:name) }
+    end
     @one = Model.create!(name: 'One', position: 1, category_id: 1)
     @two = Model.create!(name: 'Two', position: 2, category_id: 1)
     @thr = Model.create!(name: 'Thr', position: 3, category_id: 2)
@@ -20,7 +22,7 @@ describe RailsCoreExtensions::Sortable do
   subject { RailsCoreExtensions::Sortable.new(params, 'models') }
 
   describe 'when unscoped' do
-    let(:scope) { Model.order(:position) }
+    let(:scope) { Model.reorder(:position) }
     specify { expect(scope.pluck(:name)).to eq %w(One Two Thr) }
     it 'should correctly sort' do
       subject.sort
@@ -29,7 +31,7 @@ describe RailsCoreExtensions::Sortable do
   end
 
   describe 'when scoped' do
-    let(:scope) { Model.where(category_id: 1).order(:position) }
+    let(:scope) { Model.where(category_id: 1).reorder(:position) }
     specify { expect(scope.pluck(:name)).to eq %w(One Two) }
 
     let(:params) { { category_id: 1, scope: :category_id, model_1_body: [@two.id, @one.id] } }

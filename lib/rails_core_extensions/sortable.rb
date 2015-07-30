@@ -26,7 +26,7 @@ module RailsCoreExtensions
         params_collection = @params[name]
       end
 
-      collection = @klass.order(:position)
+      collection = @klass.reorder(:position)
       collection = collection.where(@params.slice(scope.to_sym)) if scope
 
       sort_collection(collection, params_collection.map(&:to_i))
