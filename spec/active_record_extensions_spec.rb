@@ -31,14 +31,14 @@ describe "ActiveRecord::Base" do
 
   it "should create a new record if new_or_update! is passed a hash without an :id" do
     attributes = {:fake_column => 'nothing really'}
-    Model.should_receive(:new).with(attributes)
+    expect(Model).to receive(:new).with(attributes)
     Model.new_or_update!(attributes)
   end
 
   it "should update record if new_or_update! is passed hash with :id" do
     attributes = {:fake_column => 'nothing really', :id => 1}
-    Model.should_receive(:find).and_return(@mock_model)
-    @mock_model.should_receive(:update_attributes!)
+    expect(Model).to receive(:find) { @mock_model }
+    expect(@mock_model).to receive(:update_attributes!)
     Model.new_or_update!(attributes)
   end
 
@@ -54,8 +54,8 @@ describe RailsCoreExtensions::ActionControllerSortable do
 
   it 'should sort' do
     # map(&:to_sym) for ruby 1.8 compatibility
-    NormalController.new.methods.map(&:to_sym).should_not include(:sort)
-    SortableController.new.methods.map(&:to_sym).should include(:sort)
+    expect(NormalController.new.methods.map(&:to_sym)).to_not include(:sort)
+    expect(SortableController.new.methods.map(&:to_sym)).to include(:sort)
   end
 end
 
@@ -79,11 +79,11 @@ describe ActiveRecordExtensions do
   end
 
   it 'should transfer records' do
-    new.children.size.should == 1
-    old.children.size.should == 1
+    expect(new.children.size).to eq 1
+    expect(old.children.size).to eq 1
     new.transfer_children_from(old)
-    new.reload.children.size.should == 2
-    old.reload.children.size.should == 0
+    expect(new.reload.children.size).to eq 2
+    expect(old.reload.children.size).to eq 0
   end
 end
 
@@ -96,8 +96,8 @@ describe ActiveRecordExtensions do
   after (:all) { Object.send(:remove_const, 'Model') }
 
   before do
-    Model.stub(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
-    Model.stub(:should_cache?).and_return(true)
+    allow(Model).to receive(:cache) { ActiveSupport::Cache::MemoryStore.new }
+    allow(Model).to receive(:should_cache?) { true }
   end
 
   it 'should cache all attributes' do
@@ -107,11 +107,11 @@ describe ActiveRecordExtensions do
     expected = {'First' => @first.attributes, 'Second' => @second.attributes}
 
     # Test underlying generate attributes hash method works
-    Model.generate_attributes_hash.should == expected
-    Model.attribute_cache.should == expected
+    expect(Model.generate_attributes_hash).to eq expected
+    expect(Model.attribute_cache).to eq expected
 
     # Test after save/destroy it updates
     @first.destroy
-    Model.attribute_cache.should == {'Second' => @second.attributes}
+    expect(Model.attribute_cache).to eq 'Second' => @second.attributes
   end
 end
