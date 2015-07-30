@@ -3,9 +3,12 @@ require 'spec_helper'
 connect_to_sqlite
 
 describe "optional_fields" do
-  class Model < ActiveRecord::Base
-    optional_fields :name, :age, -> { [:age] }
+  before(:all) do
+    Model = Class.new(ActiveRecord::Base) do
+      optional_fields :name, :age, -> { [:age] }
+    end
   end
+  after (:all) { Object.send(:remove_const, 'Model') }
 
   it 'should know what fields are optional' do
     expect(Model).to be_age_enabled
@@ -19,8 +22,8 @@ describe "optional_fields" do
 end
 
 describe "ActiveRecord::Base" do
-  class Model < ActiveRecord::Base
-  end
+  before(:all) { Model = Class.new(ActiveRecord::Base) }
+  after (:all) { Object.send(:remove_const, 'Model') }
 
   before do
     @mock_model = double("mock model")
@@ -85,9 +88,12 @@ describe ActiveRecordExtensions do
 end
 
 describe ActiveRecordExtensions do
-  class Model < ActiveRecord::Base
-    cache_all_attributes :by => 'name'
+  before(:all) do
+    Model = Class.new(ActiveRecord::Base) do
+      cache_all_attributes :by => 'name'
+    end
   end
+  after (:all) { Object.send(:remove_const, 'Model') }
 
   before do
     Model.stub(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
