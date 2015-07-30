@@ -2,6 +2,8 @@ ActiveRecord::Schema.define(:version => 1) do
   create_table :models do |t|
     t.string :name
     t.string :age
+    t.integer :position
+    t.integer :category_id
   end
 
   create_table :parents do |t|
