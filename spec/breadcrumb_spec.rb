@@ -27,13 +27,13 @@ describe RailsCoreExtensions::Breadcrumb do
   let(:parent) { nil }
 
   before do
-    subject.stub(:objects_path).and_return(objects_path)
-    subject.stub(:collection_url).and_return(objects_path)
+    allow(subject).to receive(:objects_path) { objects_path }
+    allow(subject).to receive(:collection_url) { objects_path }
 
-    subject.stub(:parent).and_return(parent)
-    subject.stub(:parent_object).and_return(parent)
+    allow(subject).to receive(:parent) { parent }
+    allow(subject).to receive(:parent_object) { parent }
 
-    subject.stub(:controller).and_return(double(:controller, :show => nil))
+    allow(subject).to receive(:controller) { double(:controller, :show => nil) }
   end
 
   context '#breadcrumbs (* = link)' do
@@ -45,9 +45,10 @@ describe RailsCoreExtensions::Breadcrumb do
 
       it 'should breadcrumb: *Users / New' do
         result = subject.breadcrumbs(user)
-        result.should be_html_safe
-        result.should ==
+        expect(result).to be_html_safe
+        expect(result).to eq(
           %q(<ul class="breadcrumb"><li><a href="/users">Users</a></li><li class="active">New</li></ul>)
+        )
       end
     end
 
@@ -57,12 +58,15 @@ describe RailsCoreExtensions::Breadcrumb do
       context 'when editing' do
         let(:action) { 'edit' }
         it 'should breadcrumb: *Users / *Alice / Edit' do
-          subject.should_receive(:link_to).with('Users', '/users').and_return('<a href="/users">Users</a>'.html_safe)
-          subject.should_receive(:link_to).with('Alice', user).and_return('<a href="/users/1">Alice</a>'.html_safe)
+          expect(subject).to receive(:link_to).with('Users', '/users') {
+            '<a href="/users">Users</a>'.html_safe }
+          expect(subject).to receive(:link_to).with('Alice', user) {
+            '<a href="/users/1">Alice</a>'.html_safe }
           result = subject.breadcrumbs(user)
-          result.should be_html_safe
-          result.should ==
+          expect(result).to be_html_safe
+          expect(result).to eq(
             %q(<ul class="breadcrumb"><li><a href="/users">Users</a></li><li><a href="/users/1">Alice</a></li><li class="active">Edit</li></ul>)
+          )
         end
       end
 
@@ -70,9 +74,10 @@ describe RailsCoreExtensions::Breadcrumb do
         let(:action) { 'show' }
         it 'should breadcrumb: *Users / Alice' do
           result = subject.breadcrumbs(user)
-          result.should be_html_safe
-          result.should ==
+          expect(result).to be_html_safe
+          expect(result).to eq(
             %q(<ul class="breadcrumb"><li><a href="/users">Users</a></li><li>Alice</li></ul>)
+          )
         end
       end
     end

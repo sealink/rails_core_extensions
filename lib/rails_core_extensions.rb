@@ -9,6 +9,7 @@ module RailsCoreExtensions
   require 'rails_core_extensions/caches_action_without_host'
   require 'rails_core_extensions/activatable'
   require 'rails_core_extensions/action_controller_sortable'
+  require 'rails_core_extensions/sortable'
   require 'rails_core_extensions/action_view_currency_extensions'
   require 'rails_core_extensions/action_view_has_many_extensions'
   require 'rails_core_extensions/action_view_extensions'
