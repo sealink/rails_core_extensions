@@ -17,8 +17,12 @@ describe RailsCoreExtensions::ActionViewExtensions do
 
   context '#boolean_select_tag' do
     it 'should generate and have selected element selected' do
-      subject.boolean_select_tag('name', selected: '0').should ==
-        subject.select_tag('name', subject.options_for_select([['Yes', '1'], ['No', '0']], selected: '0'))
+      expect(subject.boolean_select_tag('name', selected: '0')).to eq(
+        subject.select_tag(
+          'name',
+          subject.options_for_select([['Yes', '1'], ['No', '0']], selected: '0')
+        )
+      )
     end
   end
 end
