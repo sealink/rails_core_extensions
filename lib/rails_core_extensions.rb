@@ -21,6 +21,7 @@ module RailsCoreExtensions
   require 'rails_core_extensions/breadcrumb'
   require 'rails_core_extensions/date_time'
   require 'rails_core_extensions/date'
+  require 'rails_core_extensions/position_initializer'
   require 'rails_core_extensions/time_with_zone'
   require 'rails_core_extensions/active_support_concern'
   require 'rails_core_extensions/concurrency'
