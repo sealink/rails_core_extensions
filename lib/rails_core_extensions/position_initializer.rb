@@ -1,16 +1,27 @@
 module RailsCoreExtensions
   class PositionInitializer
-    def self.positionalize(model_class, scope_name = nil, position_column = :position)
-      position_column ||= :position
-      objects = model_class.order(:position)
-      groups = scope_name ? objects.group_by(&scope_name.to_sym).values : [objects]
+    def initialize(model_class, scope_name = nil, position_column = :position)
+      @model_class = model_class
+      @scope_name = scope_name
+      @position_column = position_column
+      @position_column ||= :position
+    end
+
+    def positionalize
       groups.each do |objects|
         objects.each.with_index do |object, index|
-          if object.position != index + 1
-            model_class.where(id: object.id).update_all(position_column => index + 1)
-          end
+          next if object.position == index + 1
+          scope = @model_class.where(id: object.id)
+          scope.update_all(@position_column => index + 1)
         end
       end
+    end
+
+    private
+
+    def groups
+      objects = @model_class.order(:position)
+      @scope_name ? objects.group_by(&@scope_name.to_sym).values : [objects]
     end
   end
 end

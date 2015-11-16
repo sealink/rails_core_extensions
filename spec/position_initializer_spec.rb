@@ -6,9 +6,11 @@ describe RailsCoreExtensions::PositionInitializer, 'When repositioning' do
   class Child < ActiveRecord::Base; end
 
   before do
+    Child.delete_all
     Child.create!(parent_id: 1, name: 'A child')
   end
 
+  subject { RailsCoreExtensions::PositionInitializer.new(Child, :parent_id) }
   let(:child)  { Child.find_by_name('A child') }
 
   context 'when not initialized' do
@@ -16,9 +18,7 @@ describe RailsCoreExtensions::PositionInitializer, 'When repositioning' do
   end
 
   context 'when positioned' do
-    before do
-      RailsCoreExtensions::PositionInitializer.positionalize(Child, :parent_id)
-    end
+    before { subject.positionalize }
 
     specify { expect(child.position).to eq 1 }
 
@@ -32,9 +32,7 @@ describe RailsCoreExtensions::PositionInitializer, 'When repositioning' do
       end
 
       context 'when re-positioned' do
-        before do
-          RailsCoreExtensions::PositionInitializer.positionalize(Child, :parent_id)
-        end
+        before { subject.positionalize }
 
         it 'should reposition in groups by linked parent' do
           expect(child.position).to eq 2
