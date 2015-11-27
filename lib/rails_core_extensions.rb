@@ -25,6 +25,7 @@ module RailsCoreExtensions
   require 'rails_core_extensions/active_support_concern'
   require 'rails_core_extensions/concurrency'
 
+  require 'rails_core_extensions/railtie' if defined?(Rails)
 
   ActionController::Base.send(:include, CachesActionWithoutHost)
   ActionController::Base.send(:include, Activatable)
