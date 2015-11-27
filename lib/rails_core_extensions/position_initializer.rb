@@ -20,7 +20,7 @@ module RailsCoreExtensions
     private
 
     def groups
-      objects = @model_class.order(:position)
+      objects = @model_class.order(@position_column)
       @scope_name ? objects.group_by(&@scope_name.to_sym).values : [objects]
     end
   end
