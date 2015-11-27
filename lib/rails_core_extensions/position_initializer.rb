@@ -1,6 +1,6 @@
 module RailsCoreExtensions
   class PositionInitializer
-    def initialize(model_class, scope_name = nil, position_column = :position)
+    def initialize(model_class, scope_name = nil, position_column = nil)
       @model_class = model_class
       @scope_name = scope_name
       @position_column = position_column
