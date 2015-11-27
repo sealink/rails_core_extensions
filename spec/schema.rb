@@ -10,6 +10,8 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table :children do |t|
+    t.string :name
     t.integer :parent_id
+    t.integer :position
   end
 end
