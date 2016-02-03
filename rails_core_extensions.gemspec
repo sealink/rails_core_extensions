@@ -14,8 +14,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency('activerecord', ['>= 2.3.0', '< 5.0.0'])
-  spec.add_dependency('actionpack', ['>= 2.3.0', '< 5.0.0'])
+  spec.add_dependency 'activerecord', ['>= 2.3.0', '< 5.0.0']
+  spec.add_dependency 'actionpack', ['>= 2.3.0', '< 5.0.0']
+
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
@@ -26,6 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sqlite3'
 
   # breadcrumbs optional dependencies
-  spec.add_development_dependency('make_resourceful')
-  spec.add_development_dependency('inherited_resources')
+  spec.add_development_dependency 'make_resourceful'
+  spec.add_development_dependency 'inherited_resources'
 end
