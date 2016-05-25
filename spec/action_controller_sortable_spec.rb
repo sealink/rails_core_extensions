@@ -5,7 +5,7 @@ require 'rails_core_extensions/sortable'
 connect_to_sqlite
 
 describe RailsCoreExtensions::Sortable do
-  before(:all) do
+  before do
     Model = Class.new(ActiveRecord::Base) do
       default_scope -> { order(:name) }
     end
@@ -13,7 +13,8 @@ describe RailsCoreExtensions::Sortable do
     @two = Model.create!(name: 'Two', position: 2, category_id: 1)
     @thr = Model.create!(name: 'Thr', position: 3, category_id: 2)
   end
-  after (:all) do
+
+  after do
     Model.delete_all
     Object.send(:remove_const, 'Model')
   end

@@ -6,8 +6,11 @@ describe RailsCoreExtensions::PositionInitializer, 'When repositioning' do
   class Child < ActiveRecord::Base; end
 
   before do
-    Child.delete_all
     Child.create!(parent_id: 1, name: 'A child')
+  end
+
+  after do
+    Child.delete_all
   end
 
   subject { RailsCoreExtensions::PositionInitializer.new(Child, :parent_id) }
