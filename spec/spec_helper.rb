@@ -9,6 +9,9 @@ require 'rubygems'
 require 'bundler/setup'
 require 'support/coverage_loader'
 
+require 'action_controller'
+require 'active_record'
+
 require 'rails_core_extensions'
 
 RSpec.configure do |config|
