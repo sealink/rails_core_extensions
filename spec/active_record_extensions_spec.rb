@@ -3,12 +3,12 @@ require 'spec_helper'
 connect_to_sqlite
 
 describe "optional_fields" do
-  before(:all) do
+  before do
     Model = Class.new(ActiveRecord::Base) do
       optional_fields :name, :age, -> { [:age] }
     end
   end
-  after (:all) { Object.send(:remove_const, 'Model') }
+  after { Object.send(:remove_const, 'Model') }
 
   it 'should know what fields are optional' do
     expect(Model).to be_age_enabled
@@ -78,6 +78,11 @@ describe ActiveRecordExtensions do
     old.children.create!
   end
 
+  after do
+    Parent.delete_all
+    Child.delete_all
+  end
+
   it 'should transfer records' do
     expect(new.children.size).to eq 1
     expect(old.children.size).to eq 1
@@ -98,6 +103,10 @@ describe ActiveRecordExtensions do
   before do
     allow(Model).to receive(:cache) { ActiveSupport::Cache::MemoryStore.new }
     allow(Model).to receive(:should_cache?) { true }
+  end
+
+  after do
+    Model.delete_all
   end
 
   it 'should cache all attributes' do
