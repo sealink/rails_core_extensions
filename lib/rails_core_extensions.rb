@@ -1,6 +1,4 @@
 module RailsCoreExtensions
-  VERSION = '0.0.1'
-
   require 'rails_core_extensions/sortable'
   require 'rails_core_extensions/action_view_currency_extensions'
   require 'rails_core_extensions/action_view_has_many_extensions'

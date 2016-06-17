@@ -1,6 +1,11 @@
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'rails_core_extensions/version'
+
 Gem::Specification.new do |spec|
   spec.name          = 'rails_core_extensions'
-  spec.version       = '0.0.1'
+  spec.version       = RailsCoreExtensions::VERSION
   spec.authors       = ['Michael Noack', 'Allesandro Berardi']
   spec.email         = ['support@travellink.com.au']
   spec.description   = %q{Set of extensions to core rails libraries.}
