@@ -1,6 +1,7 @@
 require 'rails_core_extensions/breadcrumb'
 
 require 'action_view'
+require 'action_view/helpers'
 
 describe RailsCoreExtensions::Breadcrumb do
   before do
