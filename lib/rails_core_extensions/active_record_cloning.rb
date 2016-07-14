@@ -27,6 +27,10 @@ module ActiveRecordCloning
       cloned_attributes_hash[:exclude] = attributes.map(&:to_sym)
     end
 
+    def clones_attributes_reset
+      @cloned_attributes = nil
+    end
+
     protected
 
     def cloned_attributes_hash
@@ -40,14 +44,11 @@ module ActiveRecordCloning
   end
 
   module InstanceMethods
-
-    def self.included(base)
-      base.class_eval %q{
-        alias_method :base_clone_attributes, :clone_attributes
-        def clone_attributes(reader_method = :read_attribute, attributes = {})
-          allowed = cloned_attributes
-          base_clone_attributes(reader_method, attributes).delete_if { |k,v| !allowed.include?(k.to_sym) }
-        end
+    def clone_attributes(reader_method = :read_attribute, attributes = {})
+      allowed = cloned_attributes
+      super(reader_method, attributes).each.with_object({}) { |(k, v), h|
+        h[k] = (v if allowed.include?(k.to_sym))
+        h
       }
     end
 
