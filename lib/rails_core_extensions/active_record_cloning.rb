@@ -1,5 +1,4 @@
 module ActiveRecordCloning
-
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -59,15 +58,12 @@ module ActiveRecordCloning
 
   end
 
-  module InstanceMethods
-    def clone_excluding(excludes=[])
-      method = ActiveRecord::Base.instance_methods(false).include?(:clone) ? :clone : :dup
-      cloned = send(method)
-      excludes ||= []
-      excludes = [excludes] unless excludes.is_a?(Enumerable)
-      self.class.exclude_attributes(cloned, excludes)
-      cloned
-    end
+  def clone_excluding(excludes=[])
+    method = ActiveRecord::Base.instance_methods(false).include?(:clone) ? :clone : :dup
+    cloned = send(method)
+    excludes ||= []
+    excludes = [excludes] unless excludes.is_a?(Enumerable)
+    self.class.exclude_attributes(cloned, excludes)
+    cloned
   end
-
 end

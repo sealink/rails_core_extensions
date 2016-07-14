@@ -16,7 +16,6 @@ describe ActiveRecordCloning do
 
   before do
     ActiveRecord::Base.send :include, ActiveRecordCloning
-    ActiveRecord::Base.send :include, ActiveRecordCloning::InstanceMethods
     stub_const 'Model', model_class
     Model.clones_attributes_reset
   end
