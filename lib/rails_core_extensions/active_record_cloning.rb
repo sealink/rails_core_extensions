@@ -31,6 +31,22 @@ module ActiveRecordCloning
       @cloned_attributes = nil
     end
 
+    def exclude_attributes(cloned, excludes)
+      excluded_attributes(excludes).each do |attr|
+        cloned.send("#{attr}=", nil)
+      end
+    end
+
+    def excluded_attributes(excludes)
+      all_attributes = attribute_names.map(&:to_sym)
+      included_attributes = if attributes_included_in_cloning.empty?
+        all_attributes
+      else
+        all_attributes & attributes_included_in_cloning
+      end
+      all_attributes - included_attributes + attributes_excluded_from_cloning + excludes
+    end
+
     protected
 
     def cloned_attributes_hash
@@ -44,38 +60,13 @@ module ActiveRecordCloning
   end
 
   module InstanceMethods
-    def clone_attributes(reader_method = :read_attribute, attributes = {})
-      allowed = cloned_attributes
-      super(reader_method, attributes).each.with_object({}) { |(k, v), h|
-        h[k] = (v if allowed.include?(k.to_sym))
-        h
-      }
-    end
-
     def clone_excluding(excludes=[])
       method = ActiveRecord::Base.instance_methods(false).include?(:clone) ? :clone : :dup
       cloned = send(method)
-
       excludes ||= []
       excludes = [excludes] unless excludes.is_a?(Enumerable)
-
-      excludes.each do |excluded_attr|
-        attr_writer = (excluded_attr.to_s + '=').to_sym
-        cloned.send attr_writer, nil
-      end
-
+      self.class.exclude_attributes(cloned, excludes)
       cloned
-    end
-
-    private
-
-    def cloned_attributes
-      included_attributes = if self.class.attributes_included_in_cloning.empty?
-        attribute_names.map(&:to_sym)
-      else
-        attribute_names.map(&:to_sym) & self.class.attributes_included_in_cloning
-      end
-      included_attributes - self.class.attributes_excluded_from_cloning
     end
   end
 
