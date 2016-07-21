@@ -1,4 +1,4 @@
-MINIMUM_COVERAGE = 74.3
+MINIMUM_COVERAGE = 76.3
 
 unless ENV['COVERAGE'] == 'off'
   require 'simplecov'
