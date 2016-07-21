@@ -23,9 +23,7 @@ describe "optional_fields" do
 end
 
 describe "ActiveRecord::Base" do
-  before do
-    @mock_model = double("mock model")
-  end
+  let(:mock_model) { double }
   let(:model_class) { Class.new(ActiveRecord::Base) }
   before { stub_const 'Model', model_class }
 
@@ -37,11 +35,10 @@ describe "ActiveRecord::Base" do
 
   it "should update record if new_or_update! is passed hash with :id" do
     attributes = {:fake_column => 'nothing really', :id => 1}
-    expect(Model).to receive(:find) { @mock_model }
-    expect(@mock_model).to receive(:update_attributes!)
+    expect(Model).to receive(:find) { mock_model }
+    expect(mock_model).to receive(:update_attributes!)
     Model.new_or_update!(attributes)
   end
-
 end
 
 describe RailsCoreExtensions::ActionControllerSortable do
@@ -61,7 +58,7 @@ end
 
 describe ActiveRecordExtensions do
   class Parent < ActiveRecord::Base
-    has_many :children
+    has_many :children, dependent: :destroy
     def transfer_children_from(old_parent)
       transfer_records(Child, [old_parent])
     end
@@ -80,8 +77,8 @@ describe ActiveRecordExtensions do
   end
 
   after do
-    Parent.delete_all
-    Child.delete_all
+    old.destroy
+    new.destroy
   end
 
   it 'should transfer records' do
@@ -107,10 +104,6 @@ describe ActiveRecordExtensions do
     allow(Model).to receive(:should_cache?) { true }
   end
 
-  after do
-    Model.delete_all
-  end
-
   it 'should cache all attributes' do
     @first = Model.create!(:name => 'First')
     @second = Model.create!(:name => 'Second')
@@ -124,5 +117,6 @@ describe ActiveRecordExtensions do
     # Test after save/destroy it updates
     @first.destroy
     expect(Model.attribute_cache).to eq 'Second' => @second.attributes
+    @second.destroy # Clean up after
   end
 end

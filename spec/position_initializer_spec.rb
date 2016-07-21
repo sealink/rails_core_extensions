@@ -9,7 +9,7 @@ describe RailsCoreExtensions::PositionInitializer, 'When repositioning' do
   end
 
   after do
-    Child.delete_all
+    child.destroy
   end
 
   subject { RailsCoreExtensions::PositionInitializer.new(Child, :parent_id) }
@@ -31,6 +31,11 @@ describe RailsCoreExtensions::PositionInitializer, 'When repositioning' do
       before do
         Child.create!(parent_id: 2, name: 'Another child')
         Child.create!(parent_id: 1, name: 'Third child')
+      end
+
+      after do
+        child2.destroy
+        child3.destroy
       end
 
       context 'when re-positioned' do
