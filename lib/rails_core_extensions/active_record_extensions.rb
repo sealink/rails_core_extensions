@@ -44,12 +44,8 @@ module ActiveRecordExtensions
     
     def enum(field, values, options = {})
       const_set("#{field.to_s.upcase}_OPTIONS", values)
-      
-      select_options = if values.is_a?(Array)
-        values.map.with_index{|v, i| [v.to_s.humanize, i]}
-      elsif values.is_a?(Hash)
-        values.values.map.with_index{|v, i| [v, i]}
-      end
+
+      select_options = values.map.with_index{|v, i| [v.to_s.humanize, i]}
       const_set("#{field.to_s.upcase}_SELECT_OPTIONS", select_options)
 
       values.each.with_index do |value, i|
