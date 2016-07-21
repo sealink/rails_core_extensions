@@ -22,10 +22,10 @@ describe "optional_fields" do
   end
 end
 
-describe 'enum' do
+describe 'enum_int' do
   let(:model_class) {
     Class.new(ActiveRecord::Base) do
-      enum :category_id, %w(one two thr)
+      enum_int :category_id, %w(one two thr)
     end
   }
   before do
@@ -56,7 +56,7 @@ describe 'enum' do
   context 'when short name' do
     let(:model_class) {
       Class.new(ActiveRecord::Base) do
-        enum :category_id, %w(one two thr), short_name: true
+        enum_int :category_id, %w(one two thr), short_name: true
       end
     }
 

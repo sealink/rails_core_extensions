@@ -42,7 +42,7 @@ module ActiveRecordExtensions
       end
     end
 
-    def enum(field, values, options = {})
+    def enum_int(field, values, options = {})
       const_set("#{field.to_s.upcase}_OPTIONS", values)
 
       select_options = values.map.with_index{|v, i| [v.to_s.humanize, i]}
