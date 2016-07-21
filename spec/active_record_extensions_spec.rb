@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-connect_to_sqlite
-
 describe "optional_fields" do
   before do
     Model = Class.new(ActiveRecord::Base) do
@@ -74,6 +72,7 @@ describe ActiveRecordExtensions do
   let(:new) { Parent.create! }
 
   before do
+    connect_to_sqlite
     new.children.create!
     old.children.create!
   end
@@ -101,6 +100,7 @@ describe ActiveRecordExtensions do
   after (:all) { Object.send(:remove_const, 'Model') }
 
   before do
+    connect_to_sqlite
     allow(Model).to receive(:cache) { ActiveSupport::Cache::MemoryStore.new }
     allow(Model).to receive(:should_cache?) { true }
   end

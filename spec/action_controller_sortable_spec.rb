@@ -2,13 +2,14 @@ require 'spec_helper'
 
 require 'rails_core_extensions/sortable'
 
-connect_to_sqlite
-
 describe RailsCoreExtensions::Sortable do
   before do
+    connect_to_sqlite
+
     Model = Class.new(ActiveRecord::Base) do
       default_scope -> { order(:name) }
     end
+
     @one = Model.create!(name: 'One', position: 1, category_id: 1)
     @two = Model.create!(name: 'Two', position: 2, category_id: 1)
     @thr = Model.create!(name: 'Thr', position: 3, category_id: 2)

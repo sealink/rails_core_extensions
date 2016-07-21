@@ -1,11 +1,10 @@
 require 'spec_helper'
 
-connect_to_sqlite
-
 describe RailsCoreExtensions::PositionInitializer, 'When repositioning' do
   class Child < ActiveRecord::Base; end
 
   before do
+    connect_to_sqlite
     Child.create!(parent_id: 1, name: 'A child')
   end
 
