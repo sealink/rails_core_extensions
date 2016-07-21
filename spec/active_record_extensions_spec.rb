@@ -1,12 +1,15 @@
 require 'spec_helper'
 
 describe "optional_fields" do
-  before do
-    Model = Class.new(ActiveRecord::Base) do
+  let(:model_class) {
+    Class.new(ActiveRecord::Base) do
       optional_fields :name, :age, -> { [:age] }
     end
+  }
+
+  before do
+    stub_const 'Model', model_class
   end
-  after { Object.send(:remove_const, 'Model') }
 
   it 'should know what fields are optional' do
     expect(Model).to be_age_enabled
@@ -20,12 +23,11 @@ describe "optional_fields" do
 end
 
 describe "ActiveRecord::Base" do
-  before(:all) { Model = Class.new(ActiveRecord::Base) }
-  after (:all) { Object.send(:remove_const, 'Model') }
-
   before do
     @mock_model = double("mock model")
   end
+  let(:model_class) { Class.new(ActiveRecord::Base) }
+  before { stub_const 'Model', model_class }
 
   it "should create a new record if new_or_update! is passed a hash without an :id" do
     attributes = {:fake_column => 'nothing really'}
@@ -92,15 +94,15 @@ describe ActiveRecordExtensions do
 end
 
 describe ActiveRecordExtensions do
-  before(:all) do
-    Model = Class.new(ActiveRecord::Base) do
+  let(:model_class) {
+    Class.new(ActiveRecord::Base) do
       cache_all_attributes :by => 'name'
     end
-  end
-  after (:all) { Object.send(:remove_const, 'Model') }
+  }
 
   before do
     connect_to_sqlite
+    stub_const 'Model', model_class
     allow(Model).to receive(:cache) { ActiveSupport::Cache::MemoryStore.new }
     allow(Model).to receive(:should_cache?) { true }
   end
