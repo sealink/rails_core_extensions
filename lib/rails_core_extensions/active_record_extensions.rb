@@ -2,7 +2,7 @@ module ActiveRecordExtensions
   def self.included(base)
     base.extend ClassMethods
   end
-  
+
   module ClassMethods
     # Like establish_connection but postfixes the key with the rails environment
     # e.g. database('hello') in development will look for the database
@@ -41,7 +41,7 @@ module ActiveRecordExtensions
         rec
       end
     end
-    
+
     def enum(field, values, options = {})
       const_set("#{field.to_s.upcase}_OPTIONS", values)
 
@@ -86,7 +86,6 @@ module ActiveRecordExtensions
       end
     end
 
-
     def position_helpers_for(*collections)
       collections.each do |collection|
         class_eval <<-EVAL
@@ -110,7 +109,6 @@ module ActiveRecordExtensions
       end
     end
 
-
     # Validates presence of -- but works on parent within accepts_nested_attributes
     #
     def validates_presence_of_parent(foreign_key)
@@ -121,7 +119,6 @@ module ActiveRecordExtensions
         end
       end
     end
-
 
     # Run a block, being respectful of connection pools
     #
@@ -146,9 +143,7 @@ module ActiveRecordExtensions
       # and also returns connections to the pool cached by threads that are no
       # longer alive.
       ActiveRecord::Base.clear_active_connections!
-
     end
-
 
     def translate(key, options = {})
       klass = self
@@ -156,17 +151,12 @@ module ActiveRecordExtensions
       I18n.translate key, options.merge(:scope => klass.name.tableize.singularize)
     end
 
-
     def t(key, options = {})
       self.translate(key, options)
     end
-
   end
 
-  
   module InstanceMethods
-
-
     def all_errors
       errors_hash = {}
       self.errors.each do |attr, msg|
@@ -179,33 +169,27 @@ module ActiveRecordExtensions
       errors_hash
     end
 
-
     def to_drop
       @drop_class ||= (self.class.name+'Drop').constantize
       @drop_class.new(self)
     end
     alias_method :to_liquid, :to_drop
 
-
     # A unique id - even if you are unsaved!
     def unique_id
       id || @generated_dom_id || (@generated_dom_id = Time.now.to_f.to_s.gsub('.', '_'))
     end
-
 
     #getting audits
     def audit_log
       return (self.methods.include?('audits') ? self.audits : [])
     end
 
-
-
     private
 
     def t(key, options = {})
       self.class.translate(key, options)
     end
-
 
     def transfer_records(klass, objects, options = {})
       record_ids = objects.flat_map { |o|
@@ -218,7 +202,5 @@ module ActiveRecordExtensions
         klass.where(id: record_ids).update_all(update_options)
       end
     end
-
   end
-
 end
