@@ -23,6 +23,8 @@ end
 
 DB_FILE = 'tmp/test_db'
 def connect_to_sqlite
+  return if ActiveRecord::Base.connected?
+
   FileUtils.mkdir_p File.dirname(DB_FILE)
   FileUtils.rm_f DB_FILE
 
