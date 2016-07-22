@@ -1,14 +1,15 @@
 require 'spec_helper'
 
-connect_to_sqlite
-
 describe "optional_fields" do
-  before do
-    Model = Class.new(ActiveRecord::Base) do
+  let(:model_class) {
+    Class.new(ActiveRecord::Base) do
       optional_fields :name, :age, -> { [:age] }
     end
+  }
+
+  before do
+    stub_const 'Model', model_class
   end
-  after { Object.send(:remove_const, 'Model') }
 
   it 'should know what fields are optional' do
     expect(Model).to be_age_enabled
@@ -22,12 +23,9 @@ describe "optional_fields" do
 end
 
 describe "ActiveRecord::Base" do
-  before(:all) { Model = Class.new(ActiveRecord::Base) }
-  after (:all) { Object.send(:remove_const, 'Model') }
-
-  before do
-    @mock_model = double("mock model")
-  end
+  let(:mock_model) { double }
+  let(:model_class) { Class.new(ActiveRecord::Base) }
+  before { stub_const 'Model', model_class }
 
   it "should create a new record if new_or_update! is passed a hash without an :id" do
     attributes = {:fake_column => 'nothing really'}
@@ -37,11 +35,10 @@ describe "ActiveRecord::Base" do
 
   it "should update record if new_or_update! is passed hash with :id" do
     attributes = {:fake_column => 'nothing really', :id => 1}
-    expect(Model).to receive(:find) { @mock_model }
-    expect(@mock_model).to receive(:update_attributes!)
+    expect(Model).to receive(:find) { mock_model }
+    expect(mock_model).to receive(:update_attributes!)
     Model.new_or_update!(attributes)
   end
-
 end
 
 describe RailsCoreExtensions::ActionControllerSortable do
@@ -61,7 +58,7 @@ end
 
 describe ActiveRecordExtensions do
   class Parent < ActiveRecord::Base
-    has_many :children
+    has_many :children, dependent: :destroy
     def transfer_children_from(old_parent)
       transfer_records(Child, [old_parent])
     end
@@ -74,13 +71,14 @@ describe ActiveRecordExtensions do
   let(:new) { Parent.create! }
 
   before do
+    connect_to_sqlite
     new.children.create!
     old.children.create!
   end
 
   after do
-    Parent.delete_all
-    Child.delete_all
+    old.destroy
+    new.destroy
   end
 
   it 'should transfer records' do
@@ -93,34 +91,36 @@ describe ActiveRecordExtensions do
 end
 
 describe ActiveRecordExtensions do
-  before(:all) do
-    Model = Class.new(ActiveRecord::Base) do
+  let(:model_class) {
+    Class.new(ActiveRecord::Base) do
       cache_all_attributes :by => 'name'
     end
-  end
-  after (:all) { Object.send(:remove_const, 'Model') }
+  }
+  let(:first) { Model.create!(:name => 'First') }
+  let(:second) { Model.create!(:name => 'Second') }
+  let(:expected) {
+    {
+      'First' => first.attributes,
+      'Second' => second.attributes
+    }
+  }
 
   before do
+    connect_to_sqlite
+    stub_const 'Model', model_class
     allow(Model).to receive(:cache) { ActiveSupport::Cache::MemoryStore.new }
     allow(Model).to receive(:should_cache?) { true }
-  end
-
-  after do
-    Model.delete_all
+    [first, second]
   end
 
   it 'should cache all attributes' do
-    @first = Model.create!(:name => 'First')
-    @second = Model.create!(:name => 'Second')
-
-    expected = {'First' => @first.attributes, 'Second' => @second.attributes}
-
     # Test underlying generate attributes hash method works
     expect(Model.generate_attributes_hash).to eq expected
     expect(Model.attribute_cache).to eq expected
 
     # Test after save/destroy it updates
-    @first.destroy
-    expect(Model.attribute_cache).to eq 'Second' => @second.attributes
+    first.destroy
+    expect(Model.attribute_cache).to eq 'Second' => second.attributes
+    second.destroy # Clean up after
   end
 end
