@@ -142,27 +142,31 @@ describe ActiveRecordExtensions do
       cache_all_attributes :by => 'name'
     end
   }
+  let(:first) { Model.create!(:name => 'First') }
+  let(:second) { Model.create!(:name => 'Second') }
+  let(:expected) {
+    {
+      'First' => first.attributes,
+      'Second' => second.attributes
+    }
+  }
 
   before do
     connect_to_sqlite
     stub_const 'Model', model_class
     allow(Model).to receive(:cache) { ActiveSupport::Cache::MemoryStore.new }
     allow(Model).to receive(:should_cache?) { true }
+    [first, second]
   end
 
   it 'should cache all attributes' do
-    @first = Model.create!(:name => 'First')
-    @second = Model.create!(:name => 'Second')
-
-    expected = {'First' => @first.attributes, 'Second' => @second.attributes}
-
     # Test underlying generate attributes hash method works
     expect(Model.generate_attributes_hash).to eq expected
     expect(Model.attribute_cache).to eq expected
 
     # Test after save/destroy it updates
-    @first.destroy
-    expect(Model.attribute_cache).to eq 'Second' => @second.attributes
-    @second.destroy # Clean up after
+    first.destroy
+    expect(Model.attribute_cache).to eq 'Second' => second.attributes
+    second.destroy # Clean up after
   end
 end
