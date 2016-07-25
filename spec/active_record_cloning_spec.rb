@@ -33,8 +33,7 @@ describe ActiveRecordCloning do
 
   context 'when model is standard' do
     context 'clone excluding should exclude' do
-      subject(:clone_excluding) {
-        record.clone_excluding(:category_id) }
+      subject(:clone_excluding) { record.clone_excluding(:category_id) }
       specify { expect(subject.name).to eq 'Bill' }
       specify { expect(subject.age).to eq '50' }
       specify { expect(subject.position).to eq 6 }
@@ -58,8 +57,7 @@ describe ActiveRecordCloning do
     end
 
     context 'clone excluding should exclude additional arguments' do
-      subject(:clone_excluding) { record.clone_excluding(:position)
-      }
+      subject(:clone_excluding) { record.clone_excluding(:position) }
       specify { expect(subject.name).to eq 'Bill' }
       specify { expect(subject.age).to eq '50' }
       specify { expect(subject.position).to eq nil }
@@ -83,8 +81,7 @@ describe ActiveRecordCloning do
     end
 
     context 'clone excluding should exclude additional arguments' do
-      subject(:clone_excluding) { record.clone_excluding(:age)
-      }
+      subject(:clone_excluding) { record.clone_excluding(:age) }
       specify { expect(subject.name).to eq 'Bill' }
       specify { expect(subject.age).to eq nil }
       specify { expect(subject.position).to eq nil }
