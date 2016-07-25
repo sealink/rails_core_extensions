@@ -9,7 +9,7 @@ describe ActiveRecordCloning do
       category_id: 1
     }
   }
-  subject(:record) { model_class.create!(attrs) }
+  let(:record) { model_class.create!(attrs) }
   let(:model_class) { Class.new(ActiveRecord::Base) { self.table_name = 'models' } }
 
   before do
