@@ -1,7 +1,5 @@
 require 'spec_helper'
 
-connect_to_sqlite
-
 describe ActiveRecordCloning do
   let(:attrs) {
     {
@@ -15,6 +13,7 @@ describe ActiveRecordCloning do
   let(:model_class) { Class.new(ActiveRecord::Base) { self.table_name = 'models' } }
 
   before do
+    connect_to_sqlite
     ActiveRecord::Base.send :include, ActiveRecordCloning
     stub_const 'Model', model_class
     Model.clones_attributes_reset
