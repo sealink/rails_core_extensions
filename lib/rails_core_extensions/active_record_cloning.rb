@@ -1,5 +1,4 @@
 module ActiveRecordCloning
-
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -27,6 +26,26 @@ module ActiveRecordCloning
       cloned_attributes_hash[:exclude] = attributes.map(&:to_sym)
     end
 
+    def clones_attributes_reset
+      @cloned_attributes = nil
+    end
+
+    def exclude_attributes(cloned, excludes)
+      excluded_attributes(excludes).each do |attr|
+        cloned.send("#{attr}=", nil)
+      end
+    end
+
+    def excluded_attributes(excludes)
+      all_attributes = attribute_names.map(&:to_sym)
+      included_attributes = if attributes_included_in_cloning.empty?
+        all_attributes
+      else
+        all_attributes & attributes_included_in_cloning
+      end
+      all_attributes - included_attributes + attributes_excluded_from_cloning + excludes
+    end
+
     protected
 
     def cloned_attributes_hash
@@ -39,43 +58,12 @@ module ActiveRecordCloning
 
   end
 
-  module InstanceMethods
-
-    def self.included(base)
-      base.class_eval %q{
-        alias_method :base_clone_attributes, :clone_attributes
-        def clone_attributes(reader_method = :read_attribute, attributes = {})
-          allowed = cloned_attributes
-          base_clone_attributes(reader_method, attributes).delete_if { |k,v| !allowed.include?(k.to_sym) }
-        end
-      }
-    end
-
-    def clone_excluding(excludes=[])
-      method = ActiveRecord::Base.instance_methods(false).include?(:clone) ? :clone : :dup
-      cloned = send(method)
-
-      excludes ||= []
-      excludes = [excludes] unless excludes.is_a?(Enumerable)
-
-      excludes.each do |excluded_attr|
-        attr_writer = (excluded_attr.to_s + '=').to_sym
-        cloned.send attr_writer, nil
-      end
-
-      cloned
-    end
-
-    private
-
-    def cloned_attributes
-      included_attributes = if self.class.attributes_included_in_cloning.empty?
-        attribute_names.map(&:to_sym)
-      else
-        attribute_names.map(&:to_sym) & self.class.attributes_included_in_cloning
-      end
-      included_attributes - self.class.attributes_excluded_from_cloning
-    end
+  def clone_excluding(excludes=[])
+    method = ActiveRecord::Base.instance_methods(false).include?(:clone) ? :clone : :dup
+    cloned = send(method)
+    excludes ||= []
+    excludes = [excludes] unless excludes.is_a?(Enumerable)
+    self.class.exclude_attributes(cloned, excludes)
+    cloned
   end
-
 end
