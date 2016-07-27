@@ -190,17 +190,5 @@ module ActiveRecordExtensions
     def t(key, options = {})
       self.class.translate(key, options)
     end
-
-    def transfer_records(klass, objects, options = {})
-      record_ids = objects.flat_map { |o|
-        o.send(klass.name.underscore + '_ids')
-      }
-      unless record_ids.empty?
-        options[:foreign_key] ||= self.class.name.underscore + '_id'
-        update_options = options.except(:foreign_key)
-        update_options[options[:foreign_key]] = id
-        klass.where(id: record_ids).update_all(update_options)
-      end
-    end
   end
 end
