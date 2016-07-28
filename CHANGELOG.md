@@ -4,3 +4,4 @@
 
 * Add rails 5 support
 * Refactor clone_excluding to enable rails 5 support
+* Extract transfer_records to class
