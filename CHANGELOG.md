@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+
+* Fixes issue with sortable controllers
+  implicitly depending on prototype based template rendering
+
 ## 0.1.0
 
 * Add rails 5 support
