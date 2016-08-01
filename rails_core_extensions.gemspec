@@ -6,7 +6,7 @@ require 'rails_core_extensions/version'
 Gem::Specification.new do |spec|
   spec.name          = 'rails_core_extensions'
   spec.version       = RailsCoreExtensions::VERSION
-  spec.authors       = ['Michael Noack', 'Allesandro Berardi']
+  spec.authors       = ['Michael Noack', 'Alessandro Berardi']
   spec.email         = ['support@travellink.com.au']
   spec.description   = %q{Set of extensions to core rails libraries.}
   spec.summary       = %q{Set of extensions to core rails libraries.}
