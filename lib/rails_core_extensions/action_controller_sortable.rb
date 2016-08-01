@@ -13,9 +13,7 @@ module RailsCoreExtensions
     module InstanceMethods
       def sort
         RailsCoreExtensions::Sortable.new(params, controller_name).sort
-
-        render :update do |page|
-        end
+        head :ok
       end
     end
   end
