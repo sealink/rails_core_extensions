@@ -147,7 +147,7 @@ module ActiveRecordExtensions
 
     def translate(key, options = {})
       klass = self
-      klass = klass.superclass while klass.superclass != ActiveRecord::Base
+      klass = klass.superclass while (klass.superclass != ActiveRecord::Base && klass.superclass != Object)
       I18n.translate key, options.merge(:scope => klass.name.tableize.singularize)
     end
 
