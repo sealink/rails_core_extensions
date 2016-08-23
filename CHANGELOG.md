@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+* Extract and test translations
+
 ## 0.1.1
 
 * Fixes issue with sortable controllers
