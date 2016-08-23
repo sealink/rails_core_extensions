@@ -1,0 +1,3 @@
+en:
+  translation_model:
+    display_me: 'My name is %{name}'
