@@ -4,8 +4,7 @@ require 'i18n'
 describe 'translations' do
   let(:model_class) {
     Class.new do
-      include ActiveRecordExtensions
-      include ActiveRecordExtensions::InstanceMethods
+      include RailsCoreExtensions::Translations
 
       def initialize(name)
         @name = name
