@@ -1,3 +1,5 @@
 en:
   translation_model:
     display_me: 'My name is %{name}'
+  party:
+    display_me: 'Party %{name}'
