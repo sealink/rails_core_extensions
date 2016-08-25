@@ -40,8 +40,10 @@ module Concurrency
           lock_concurrency_safe_method(:#{method})
           return_value = nil
           begin
+          puts "begin"
             return_value = #{method}_without_concurrency_lock(*args)
           ensure
+          puts "ensure"
             unlock_concurrency_safe_method(:#{method})
           end
           return_value
