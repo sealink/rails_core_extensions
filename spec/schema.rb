@@ -6,6 +6,10 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer :category_id
   end
 
+  create_table :parties do |t|
+    t.string :name, :type
+  end
+
   create_table :parents do |t|
   end
 

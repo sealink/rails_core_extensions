@@ -27,11 +27,13 @@ module RailsCoreExtensions
     require 'rails_core_extensions/active_record_cache_all_attributes'
     require 'rails_core_extensions/active_record_extensions'
     require 'rails_core_extensions/active_record_liquid_extensions'
+    require 'rails_core_extensions/translations'
 
     ActiveRecord::Base.send(:include, ActiveRecordCloning)
     ActiveRecord::Base.send(:include, ActiveRecordExtensions)
     ActiveRecord::Base.send(:include, RailsCoreExtensions::ActiveRecordLiquidExtensions)
     ActiveRecord::Base.send(:include, ActiveRecordExtensions::InstanceMethods)
+    ActiveRecord::Base.send(:include, RailsCoreExtensions::Translations)
 
     if ActiveRecord::VERSION::MAJOR >= 3
       require 'rails_core_extensions/active_model_extensions'

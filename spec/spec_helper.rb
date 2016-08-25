@@ -13,6 +13,7 @@ require 'action_controller'
 require 'active_record'
 
 require 'rails_core_extensions'
+I18n.load_path << [File.expand_path('../en.yml', __FILE__)]
 
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
