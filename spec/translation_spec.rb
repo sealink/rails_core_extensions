@@ -39,13 +39,13 @@ describe 'translations' do
     }
 
     before do
-      stub_const 'TranslationSubModel', model_subclass
+      stub_const 'Translation::SubModel', model_subclass
     end
 
-    let(:class_translation) { TranslationSubModel.t('display_me', name: 'Class') }
-    subject { TranslationSubModel.new('Ruby') }
+    let(:class_translation) { Translation::SubModel.t('display_me', name: 'Class') }
+    subject { Translation::SubModel.new('Ruby') }
 
-    specify { expect(TranslationSubModel.translation_key).to eq 'translation_sub_model' }
+    specify { expect(Translation::SubModel.translation_key).to eq 'translation.sub_model' }
     specify { expect(subject.to_s).to eq 'My subname is Ruby' }
     specify { expect(class_translation).to eq 'My subname is Class' }
   end

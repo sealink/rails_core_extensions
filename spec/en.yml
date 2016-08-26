@@ -1,7 +1,8 @@
 en:
   translation_model:
     display_me: 'My name is %{name}'
-  translation_sub_model:
-    display_me: 'My subname is %{name}'
+  translation:
+    sub_model:
+      display_me: 'My subname is %{name}'
   party:
     display_me: 'Party %{name}'
