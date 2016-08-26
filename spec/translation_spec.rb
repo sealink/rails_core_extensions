@@ -27,6 +27,12 @@ describe 'translations' do
   specify { expect(subject.to_s).to eq 'My name is Ruby' }
   specify { expect(class_translation).to eq 'My name is Class' }
 
+  specify {
+    allow(TranslationModel).to receive(:base_translation_class).and_call_original
+    5.times { subject.to_s }
+    expect(TranslationModel).to have_received(:base_translation_class).once
+  }
+
   context 'non AR subclass' do
     let(:model_subclass) {
       Class.new(model_class)

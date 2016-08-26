@@ -10,7 +10,7 @@ module RailsCoreExtensions
       end
 
       def translation_key
-        base_translation_class.name.tableize.singularize
+        @translation_key ||= base_translation_class.name.tableize.singularize
       end
 
       def base_translation_class
