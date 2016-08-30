@@ -27,6 +27,34 @@ describe 'translations' do
   specify { expect(subject.to_s).to eq 'My name is Ruby' }
   specify { expect(class_translation).to eq 'My name is Class' }
 
+  context 'performance' do
+    before do
+      allow(TranslationModel).to receive(:base_translation_class).and_call_original
+      5.times { subject.to_s }
+    end
+
+    specify {
+      expect(TranslationModel).to have_received(:base_translation_class).once
+    }
+  end
+
+  context 'non AR subclass' do
+    let(:model_subclass) {
+      Class.new(model_class)
+    }
+
+    before do
+      stub_const 'Translation::SubModel', model_subclass
+    end
+
+    let(:class_translation) { Translation::SubModel.t('display_me', name: 'Class') }
+    subject { Translation::SubModel.new('Ruby') }
+
+    specify { expect(Translation::SubModel.translation_key).to eq 'translation.sub_model' }
+    specify { expect(subject.to_s).to eq 'My subname is Ruby' }
+    specify { expect(class_translation).to eq 'My subname is Class' }
+  end
+
   context 'AR base class' do
     let(:ar_model_class) {
       Class.new(ActiveRecord::Base) do

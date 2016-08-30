@@ -10,20 +10,12 @@ module RailsCoreExtensions
       end
 
       def translation_key
-        base_translation_class.name.tableize.singularize
+        @translation_key ||= base_translation_class.name.tableize.singularize.gsub('/', '.')
       end
 
       def base_translation_class
-        klass = self
-        while !base_classes.include? klass.superclass
-          klass = klass.superclass
-        end
-        klass
-      end
-
-      def base_classes
-        return [ActiveRecord::Base, Object] if defined?(ActiveRecord)
-        [Object]
+        return base_class if defined?(ActiveRecord) && ancestors.include?(ActiveRecord::Base)
+        self
       end
 
       def t(key, options = {})
