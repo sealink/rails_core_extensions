@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* Use coverage kit to enforce maximum coverage
+
 ## 0.2.0
 
 * Extract and test translations
