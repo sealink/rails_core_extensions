@@ -35,7 +35,7 @@ describe ActiveModelExtensions do
 
   context 'when model complete' do
     subject { klass.new(:name => 'Valid') }
-    it { should be_valid }
+    it { should be_nil }
   end
 end
 
