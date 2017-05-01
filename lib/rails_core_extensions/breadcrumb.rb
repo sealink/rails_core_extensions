@@ -55,6 +55,7 @@ module RailsCoreExtensions
         case action
           when 'new'    then breadcrumb_for('New', :class => 'active')
           when 'edit'   then breadcrumb_for_object + breadcrumb_for('Edit', :class => 'active')
+          when 'index'  then nil
           else breadcrumb_for_object_name
         end
       end
