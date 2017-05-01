@@ -47,7 +47,11 @@ module RailsCoreExtensions
 
 
       def breadcrumb_for_collection
-        breadcrumb_for view.link_to(object.class.table_name.titleize, path)
+        if action == 'index'
+          breadcrumb_for view.params[:controller].titleize
+        else
+          breadcrumb_for view.link_to(object.class.table_name.titleize, path)
+        end
       end
 
 
