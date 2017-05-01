@@ -58,18 +58,9 @@ module RailsCoreExtensions
       def breadcrumb_for_action
         case action
           when 'new'    then breadcrumb_for('New', :class => 'active')
-          when 'edit'   then breadcrumb_for_object + breadcrumb_for('Edit', :class => 'active')
+          when 'edit'   then breadcrumb_for_object_link + breadcrumb_for('Edit', :class => 'active')
           when 'index'  then nil
           else breadcrumb_for_object_name
-        end
-      end
-
-
-      def breadcrumb_for_object
-        if can_show?
-          breadcrumb_for_object_link
-        else
-          breadcrumb_for_object_name
         end
       end
 
@@ -85,7 +76,11 @@ module RailsCoreExtensions
 
 
       def link_to_object
-        view.link_to object_name.html_safe, object_or_nested_array
+        if can_show?
+          view.link_to object_name.html_safe, object_or_nested_array
+        else
+          object_name.html_safe
+        end
       end
 
 
