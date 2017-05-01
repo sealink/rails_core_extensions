@@ -35,16 +35,21 @@ describe RailsCoreExtensions::Breadcrumb do
     allow(subject).to receive(:parent_object) { parent }
 
     allow(subject).to receive(:controller) { double(:controller, :show => nil) }
+    allow(subject).to receive(:url_for).with(action: :show, controller: 'users', id: 1).and_return('/users/1')
   end
 
+  let(:id) { new_record ? nil : 1 }
+
   context '#breadcrumbs (* = link)' do
-    let(:user_class) { double(:table_name => 'users', :model_name => double(:singular_route_key => 'user')) }
-    let(:user) { double(:to_s => 'Alice', :new_record? => new_record, :class => user_class) }
+    let(:user_class) { double(:user_class, :table_name => 'users', :model_name => double(:singular_route_key => 'user')) }
+    let(:user) { double(:user, :id => id, :to_s => 'Alice', :new_record? => new_record, :class => user_class) }
     context 'for a new record' do
       let(:action) { 'new' }
       let(:new_record) { true }
 
       it 'should breadcrumb: *Users / New' do
+        expect(subject).to receive(:link_to).with('Users', '/users') {
+          '<a href="/users">Users</a>'.html_safe }
         result = subject.breadcrumbs(user)
         expect(result).to be_html_safe
         expect(result).to eq(
@@ -74,6 +79,8 @@ describe RailsCoreExtensions::Breadcrumb do
       context 'when showing' do
         let(:action) { 'show' }
         it 'should breadcrumb: *Users / Alice' do
+          expect(subject).to receive(:link_to).with('Users', '/users') {
+            '<a href="/users">Users</a>'.html_safe }
           result = subject.breadcrumbs(user)
           expect(result).to be_html_safe
           expect(result).to eq(

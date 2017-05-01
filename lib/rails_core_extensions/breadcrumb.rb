@@ -85,7 +85,13 @@ module RailsCoreExtensions
 
 
       def can_show?
-        view.controller.respond_to?(:show)
+        view.url_for(
+          action: :show,
+          controller: object.class.table_name,
+          id: object.id
+        )
+      rescue ActionController::RoutingError
+        false
       end
 
 
