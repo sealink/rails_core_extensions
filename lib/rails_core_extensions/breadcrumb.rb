@@ -149,6 +149,8 @@ module RailsCoreExtensions
       def nested_array
         if view.respond_to? :calculate_nested_array
           view.calculate_nested_array
+        elsif view.params[:action] == 'index'
+          [parent]
         else
           [parent, view.resource].compact
         end
