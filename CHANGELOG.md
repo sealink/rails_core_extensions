@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Use coverage kit to enforce maximum coverage
+* [ROT-73] Always cache cacheable attributes
 
 ## 0.2.0
 
