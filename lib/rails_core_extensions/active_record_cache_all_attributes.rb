@@ -5,7 +5,7 @@ module ActiveRecordCacheAllAttributes
 
   module InstanceMethods
     def clear_attribute_cache
-      self.class.cache.delete("#{self.class.name}.attribute_cache") if self.class.should_cache?
+      self.class.cache.delete("#{self.class.name}.attribute_cache")
     end
   end
 
@@ -16,11 +16,7 @@ module ActiveRecordCacheAllAttributes
 
     def attribute_cache
       cache_key = "#{self.name}.attribute_cache"
-      if self.should_cache?
-        cache.read(cache_key) || self.generate_cache(cache_key)
-      else
-        self.generate_attributes_hash
-      end
+      cache.read(cache_key) || self.generate_cache(cache_key)
     end
 
     def generate_attributes_hash
@@ -34,10 +30,6 @@ module ActiveRecordCacheAllAttributes
         cache.write(cache_key, cache_value)
       end
       cache_value
-    end
-
-    def should_cache?
-      Rails.configuration.action_controller.perform_caching
     end
   end
 end
