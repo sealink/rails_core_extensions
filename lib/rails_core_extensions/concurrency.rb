@@ -46,8 +46,8 @@ module Concurrency
           end
           return_value
         end
-
-        alias_method_chain :#{method}, :concurrency_lock
+        alias_method :#{method}_without_concurrency_lock, :#{method}
+        alias_method :#{method}, :#{method}_with_concurrency_lock
       DEFINITION
       
       if method_type(method, options[:type]) == 'class'
