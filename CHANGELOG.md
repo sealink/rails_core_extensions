@@ -3,6 +3,7 @@
 ## Unreleased
 
 * Use coverage kit to enforce maximum coverage
+* [RU-133] Replace alias_method_chain with alias_method
 
 ## 0.2.0
 
