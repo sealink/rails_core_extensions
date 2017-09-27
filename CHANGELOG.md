@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.3.0
 
 * Use coverage kit to enforce maximum coverage
 * [ROT-73] Always cache cacheable attributes
