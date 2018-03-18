@@ -20,14 +20,14 @@ module ActiveRecordCacheAllAttributes
     end
 
     def attribute_cache
-      cache_key = "#{self.name}.attribute_cache"
-      @request_cache ||= cache.read(cache_key) || self.generate_cache(cache_key)
+      cache_key = "#{name}.attribute_cache"
+      @request_cache ||= cache.read(cache_key) || generate_cache(cache_key)
     end
 
     def generate_attributes_hash
       scope = self
       scope = scope.ordered if respond_to?(:ordered)
-      Hash[scope.all.map { |o| [o.send(self.cache_attributes_by), o.attributes] }]
+      Hash[scope.all.map { |o| [o.send(cache_attributes_by), o.attributes] }]
     end
 
     def generate_cache(cache_key)
