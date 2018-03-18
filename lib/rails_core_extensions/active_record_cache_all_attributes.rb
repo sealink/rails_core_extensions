@@ -26,9 +26,8 @@ module ActiveRecordCacheAllAttributes
     end
 
     def generate_cache(cache_key)
-      if (cache_value = generate_attributes_hash)
-        cache.write(cache_key, cache_value)
-      end
+      cache_value = generate_attributes_hash
+      cache.write(cache_key, cache_value)
       cache_value
     end
   end
