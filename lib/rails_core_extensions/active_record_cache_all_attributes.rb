@@ -14,9 +14,13 @@ module ActiveRecordCacheAllAttributes
       Rails.cache
     end
 
+    def clear_request_cache
+      @request_cache = nil
+    end
+
     def attribute_cache
       cache_key = "#{self.name}.attribute_cache"
-      cache.read(cache_key) || self.generate_cache(cache_key)
+      @request_cache ||= cache.read(cache_key) || self.generate_cache(cache_key)
     end
 
     def generate_attributes_hash
