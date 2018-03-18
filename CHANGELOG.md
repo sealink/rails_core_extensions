@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* [TT-3778] Store the cacheable attributes in memory for the duration of the request
+
 ## 0.3.0
 
 * Use coverage kit to enforce maximum coverage
