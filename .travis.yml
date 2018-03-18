@@ -5,7 +5,6 @@ rvm:
   - 2.5
 script: "bundle exec rake spec"
 gemfile:
-  - gemfiles/rails3.gemfile
   - gemfiles/rails4.gemfile
   - gemfiles/rails5.gemfile
 notifications:

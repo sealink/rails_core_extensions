@@ -1,4 +1,4 @@
-Rails Core Extensions 
+Rails Core Extensions
 ====================
 
 [![Build Status](https://travis-ci.org/sealink/rails_core_extensions.png?branch=master)](https://travis-ci.org/sealink/rails_core_extensions)
@@ -30,15 +30,12 @@ end
 
 config/routes.rb
 
-In Rails 3:
+In Rails 4/5:
 resources :types do
   collection
     post :sort
   end
 end
-
-In Rails 2:
-map.resources :types, collection: {sort: :post}
 ```
 
 You need to submit a collection of objects named the same as the controller.
