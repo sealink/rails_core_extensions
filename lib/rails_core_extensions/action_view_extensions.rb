@@ -53,8 +53,7 @@ module RailsCoreExtensions
       options = args.extract_options!
       options ||= {}
       opts = [['Yes', '1'], ['No', '0']]
-      opts = [blank_option] + opts if options[:include_blank]
-      select_tag name, options_for_select(opts, options[:selected])
+      select_tag name, options_for_select(opts, options[:selected]), options.except(:selected)
     end
   end
 end
