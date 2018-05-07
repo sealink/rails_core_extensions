@@ -24,6 +24,11 @@ describe RailsCoreExtensions::ActionViewExtensions do
       let(:options) { helper.options_for_select(yes_no, selected: '0') }
 
       it { is_expected.to eq helper.select_tag('name', options) }
+
+      context 'and other options passed' do
+        let(:args) { { selected: '0', include_blank: 'All' } }
+        it { is_expected.to eq helper.select_tag('name', options, include_blank: 'All') }
+      end
     end
   end
 end
