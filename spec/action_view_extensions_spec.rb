@@ -13,13 +13,17 @@ describe RailsCoreExtensions::ActionViewExtensions do
 
   after { Object.send(:remove_const, 'TestModel1') }
 
-  subject { TestModel1.new }
+  let(:helper) { TestModel1.new }
 
   context '#boolean_select_tag' do
-    it 'should generate and have selected element selected' do
-      expect(subject.boolean_select_tag('name', selected: '0')).to eq(
-        subject.select_tag('name', subject.options_for_select([['Yes', '1'], ['No', '0']], selected: '0'))
-      )
+    let(:yes_no) { [["Yes", "1"], ["No", "0"]] }
+    subject { helper.boolean_select_tag('name', args) }
+
+    context 'when elements selected' do
+      let(:args) { { selected: 0 } }
+      let(:options) { helper.options_for_select(yes_no, selected: '0') }
+
+      it { is_expected.to eq helper.select_tag('name', options) }
     end
   end
 end
