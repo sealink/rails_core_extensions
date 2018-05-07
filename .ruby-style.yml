@@ -35,7 +35,6 @@ Style/IfUnlessModifier:
   Description: Favor modifier if/unless usage when you have a single-line body.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#if-as-a-modifier
   Enabled: false
-  MaxLineLength: 100
 Style/OptionHash:
   Description: Don't use option hashes when you can use keyword arguments.
   Enabled: false
@@ -118,20 +117,12 @@ Style/TrailingCommaInArguments:
   Description: Checks for trailing comma in argument lists.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-trailing-array-commas
   EnforcedStyleForMultiline: comma
-  SupportedStyles:
-    - comma
-    - consistent_comma
-    - no_comma
   Enabled: true
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
   Description: Checks for trailing comma in array and hash literals.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#no-trailing-array-commas
   EnforcedStyleForMultiline: comma
-  SupportedStyles:
-    - comma
-    - consistent_comma
-    - no_comma
-Enabled: true
+  Enabled: true
 Metrics/AbcSize:
   Description: A calculated magnitude based on number of assignments, branches, and
     conditions.
@@ -234,9 +225,6 @@ Lint/EachWithObjectArgument:
 Lint/HandleExceptions:
   Description: Don't suppress exception.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#dont-hide-exceptions
-  Enabled: false
-Lint/LiteralInCondition:
-  Description: Checks of literals used in conditions.
   Enabled: false
 Lint/LiteralInInterpolation:
   Description: Checks for literals used in interpolation.
