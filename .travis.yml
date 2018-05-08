@@ -14,3 +14,7 @@ notifications:
     secure: A0XTB5fVkDI9PSeyA4kMIckB4EPdoBlCIae+zatkcqlUJcqTc9wMFSrlnjzA4x+ramqGlwprPXUtEGVVEJwBcoaUjSOnNqZjeRAE1HuZ3D91/UaXZArp+skTGkO/qqek6pSYsAwODN5Q/Fr0qpV6cRzUuQ9nvGA/8sg/Ano2Cno=
 sudo: false
 cache: bundler
+# Due to this issue, stil not resolved: travis-ci/travis-ci#8969
+before_install:
+  - gem update --system
+  - gem install bundler

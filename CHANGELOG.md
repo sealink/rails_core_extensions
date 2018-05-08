@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+* Support include_blank properly (was broken)
+
 ## 0.4.0 (Removes Rails3 Support)
 
 * [TT-3778] Store the cacheable attributes in memory for the duration of the request

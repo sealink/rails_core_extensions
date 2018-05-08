@@ -52,9 +52,9 @@ module RailsCoreExtensions
     def boolean_select_tag(name, *args)
       options = args.extract_options!
       options ||= {}
-      opts = [['Yes', '1'], ['No', '0']]
-      opts = [blank_option] + opts if options[:include_blank]
-      select_tag name, options_for_select(opts, options[:selected])
+      yes_no_opts = [%w[Yes 1], %w[No 0]]
+      option_tags = options_for_select(yes_no_opts, options[:selected])
+      select_tag name, option_tags, options.except(:selected)
     end
   end
 end
