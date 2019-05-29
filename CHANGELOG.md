@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleaed
+
+* [TT-5542] Remove Rails 4 support
+
 ## 0.4.0 (Removes Rails3 Support)
 
 * [TT-3778] Store the cacheable attributes in memory for the duration of the request
