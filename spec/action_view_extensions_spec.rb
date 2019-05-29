@@ -1,6 +1,6 @@
-require 'rails_core_extensions/action_view_extensions'
+require "rails_core_extensions/action_view_extensions"
 
-require 'action_view'
+require "action_view"
 
 describe RailsCoreExtensions::ActionViewExtensions do
   before do
@@ -11,15 +11,30 @@ describe RailsCoreExtensions::ActionViewExtensions do
     end
   end
 
-  after { Object.send(:remove_const, 'TestModel1') }
+  after { Object.send(:remove_const, "TestModel1") }
 
-  subject { TestModel1.new }
+  let(:helper) { TestModel1.new }
 
-  context '#boolean_select_tag' do
-    it 'should generate and have selected element selected' do
-      expect(subject.boolean_select_tag('name', selected: '0')).to eq(
-        subject.select_tag('name', subject.options_for_select([['Yes', '1'], ['No', '0']], selected: '0'))
-      )
+  context "#boolean_select_tag" do
+    let(:yes_no) { [%w[Yes 1], %w[No 0]] }
+    subject { helper.boolean_select_tag("name", args) }
+
+    context "when elements selected" do
+      let(:args) { { selected: 0 } }
+      let(:options) { helper.options_for_select(yes_no, selected: "0") }
+
+      it { is_expected.to eq helper.select_tag("name", options) }
+
+      context "and other options passed" do
+        let(:args) { { selected: "0", include_blank: "All" } }
+        it {
+          is_expected.to eq helper.select_tag(
+            "name",
+            options,
+            include_blank: "All",
+          )
+        }
+      end
     end
   end
 end

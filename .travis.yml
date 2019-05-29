@@ -8,3 +8,7 @@ gemfile:
   - gemfiles/rails5.gemfile
 sudo: false
 cache: bundler
+# Due to this issue, stil not resolved: travis-ci/travis-ci#8969
+before_install:
+  - gem update --system
+  - gem install bundler
