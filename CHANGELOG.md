@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleaed
+
+* [TT-5542] Remove Rails 4 support
+
 ## 0.5.0
 
 * Support include_blank properly (was broken)
