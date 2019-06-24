@@ -27,6 +27,7 @@ module RailsCoreExtensions
       end
 
       collection = @klass.reorder(:position)
+      @params[scope] = nil if @params[scope].blank?
       collection = collection.where(@params.slice(scope.to_sym)) if scope
 
       sort_collection(collection, params_collection.map(&:to_i))
