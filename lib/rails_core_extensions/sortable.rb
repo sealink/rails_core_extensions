@@ -15,22 +15,18 @@ module RailsCoreExtensions
 
     def sort
       scope = @params[:scope].try(:to_sym)
+      @params[scope] = nil if @params[scope].blank?
 
-      param_key = @controller_name.singularize
-      param_key += "_#{@params[scope]}" if scope
-
-      params_collection = @params["#{param_key}_body".to_sym]
-
-      if params_collection.blank?
-        name = "#{scope.to_s.gsub('_id', '')}_#{@params[scope]}_body".to_sym
-        params_collection = @params[name]
+      body_key = @controller_name.singularize + (@params[scope] ? "_#{@params[scope]}" : '')
+      sorted_id_list = @params["#{body_key}_body".to_sym]
+      if sorted_id_list.blank?
+        sorted_id_list = @params["#{scope.to_s.gsub('_id', '')}_#{@params[scope]}_body".to_sym]
       end
 
       collection = @klass.reorder(:position)
-      @params[scope] = nil if @params[scope].blank?
-      collection = collection.where(@params.slice(scope.to_sym)) if scope
+      collection = collection.where(@params.slice(scope)) unless scope.blank?
 
-      sort_collection(collection, params_collection.map(&:to_i))
+      sort_collection(collection, sorted_id_list.map(&:to_i))
     end
 
     private

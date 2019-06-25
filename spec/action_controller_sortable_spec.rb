@@ -26,16 +26,25 @@ describe RailsCoreExtensions::Sortable do
     models.each(&:destroy)
   end
 
-  let(:params) { { model_body: [one.id, thr.id, two.id] } }
   subject { RailsCoreExtensions::Sortable.new(params, 'models') }
 
-  describe 'when unscoped' do
+  RSpec.shared_examples 'unscoped' do
     let(:scope) { Model.reorder(:position) }
     specify { expect(scope.pluck(:name)).to eq %w(One Two Thr) }
     it 'should correctly sort' do
       subject.sort
       expect(scope.pluck(:name)).to eq %w(One Thr Two)
     end
+  end
+
+  describe 'when unscoped due to blank scope' do
+    let(:params) { { model_body: [one.id, thr.id, two.id], scope: "" } }
+    it_behaves_like 'unscoped'
+  end
+
+  describe 'when unscoped due to lack of scope' do
+    let(:params) { { model_body: [one.id, thr.id, two.id] } }
+    it_behaves_like 'unscoped'
   end
 
   describe 'when scoped' do
