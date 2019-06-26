@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.0
 
 * [TT-5542] Remove Rails 4 support
 * [TT-5642] Fixed sortable so it can sort on empty scopes
