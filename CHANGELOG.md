@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* [TT-5671] More fixes to sortable
+
 ## 0.6.0
 
 * [TT-5542] Remove Rails 4 support

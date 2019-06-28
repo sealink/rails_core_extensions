@@ -26,7 +26,7 @@ module RailsCoreExtensions
       collection = @klass.reorder(:position)
       collection = collection.where(@params.slice(scope)) unless scope.blank?
 
-      sort_collection(collection, sorted_id_list.map(&:to_i))
+      sort_collection(collection.find(sorted_id_list.map(&:to_i)), sorted_id_list.map(&:to_i))
     end
 
     private
