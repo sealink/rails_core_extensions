@@ -1,5 +1,7 @@
 # Changelog
 
+* [TT-5745] Update Liquid validate to be v4 compatible
+
 ## 0.6.1
 
 * [TT-5671] More fixes to sortable
