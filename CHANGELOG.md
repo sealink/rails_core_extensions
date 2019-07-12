@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.1 Unreleased
+## 0.7.1
 
 * [TT-5745] Fix passing of symbol to liquid template parse
 
