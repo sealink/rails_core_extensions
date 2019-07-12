@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1 Unreleased
+
+* [TT-5745] Fix passing of symbol to liquid template parse
+
 ## 0.7.0
 
 * [TT-5745] Update Liquid validate to be v4 compatible
