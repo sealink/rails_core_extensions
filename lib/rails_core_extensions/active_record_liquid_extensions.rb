@@ -10,7 +10,7 @@ module RailsCoreExtensions
       field = field.to_sym
       before_validation do |record|
         begin
-          Liquid::Template.parse(record.send(field), error_mode: strict)
+          Liquid::Template.parse(record.send(field), error_mode: :strict)
         rescue Liquid::SyntaxError => e
           record.errors.add(field, "Liquid Syntax Error: #{e}")
         end
