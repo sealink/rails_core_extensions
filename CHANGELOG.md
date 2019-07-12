@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.7.0
+
 * [TT-5745] Update Liquid validate to be v4 compatible
 
 ## 0.6.1
