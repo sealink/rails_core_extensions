@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* [TT-5384] Remove validates_presence_of_parent method (Use rails optional flag instead)
+
 ## 0.7.1
 
 * [TT-5745] Fix passing of symbol to liquid template parse
