@@ -109,17 +109,6 @@ module ActiveRecordExtensions
       end
     end
 
-    # Validates presence of -- but works on parent within accepts_nested_attributes
-    #
-    def validates_presence_of_parent(foreign_key)
-      after_save do |record|
-        unless record.send(foreign_key)
-          record.errors.add_on_blank(foreign_key)
-          raise ActiveRecord::ActiveRecordError, record.errors.full_messages.to_sentence
-        end
-      end
-    end
-
     # Run a block, being respectful of connection pools
     #
     # Useful for when you're not in the standard rails request process,
