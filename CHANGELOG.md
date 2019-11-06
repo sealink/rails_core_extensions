@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* [TT-6293] Drop breadcrumbs / cache without host and some unused view helpers
+
 ## 0.7.1
 
 * [TT-5745] Fix passing of symbol to liquid template parse
