@@ -18,7 +18,6 @@ module RailsCoreExtensions
 
   if defined? ActionView
     require 'rails_core_extensions/action_view_extensions'
-    require 'rails_core_extensions/action_view_currency_extensions'
     require 'rails_core_extensions/action_view_has_many_extensions'
 
     ActionView::Base.send(:include, RailsCoreExtensions::ActionViewExtensions)
