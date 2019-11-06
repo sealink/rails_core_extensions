@@ -3,6 +3,7 @@
 ## Unreleased
 
 * [TT-5384] Remove validates_presence_of_parent method (Use rails optional flag instead)
+* [TT-6293] Drop breadcrumbs / cache without host and some unused view helpers
 
 ## 0.7.1
 
