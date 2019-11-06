@@ -1,8 +1,5 @@
 module RailsCoreExtensions
   require 'rails_core_extensions/sortable'
-  require 'rails_core_extensions/action_view_currency_extensions'
-  require 'rails_core_extensions/action_view_has_many_extensions'
-  require 'rails_core_extensions/action_view_extensions'
   require 'rails_core_extensions/position_initializer'
   require 'rails_core_extensions/time_with_zone'
   require 'rails_core_extensions/transfer_records'
@@ -17,6 +14,14 @@ module RailsCoreExtensions
 
     ActionController::Base.send(:include, Activatable)
     ActionController::Base.send(:include, ActionControllerSortable)
+  end
+
+  if defined? ActionView
+    require 'rails_core_extensions/action_view_extensions'
+    require 'rails_core_extensions/action_view_currency_extensions'
+    require 'rails_core_extensions/action_view_has_many_extensions'
+
+    ActionView::Base.send(:include, RailsCoreExtensions::ActionViewExtensions)
   end
 
   if defined? ActiveRecord

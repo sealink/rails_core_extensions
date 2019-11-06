@@ -24,5 +24,3 @@ module RailsCoreExtensions
     end
   end
 end
-
-ActionView::Base.send(:include, RailsCoreExtensions::ActionViewExtensions) if defined?(ActionView::Base)
