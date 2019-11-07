@@ -1,11 +1,7 @@
 language: ruby
 rvm:
-  - 2.4
   - 2.5
-matrix:
-  exclude:
-    - rvm: 2.4
-      gemfile: gemfiles/rails6.gemfile
+  - 2.6
 
 script: "bundle exec rake spec"
 gemfile:
