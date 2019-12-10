@@ -11,37 +11,6 @@ module ActiveRecordExtensions
       establish_connection("#{key}_#{Rails.env}")
     end
 
-    def cache_all_attributes(options = {})
-      method = options[:by] || 'id'
-      class_eval <<-CACHE
-        after_save :clear_attribute_cache
-        after_destroy :clear_attribute_cache
-        cattr_accessor :cache_attributes_by
-        self.cache_attributes_by = '#{method}'
-      CACHE
-      extend ActiveRecordCacheAllAttributes::ClassMethods
-      include ActiveRecordCacheAllAttributes::InstanceMethods
-    end
-
-    # Create a new object from the attributes passed in
-    # OR update an existing
-    #
-    # If an :id attribute is present it will assume it's an existing record, and needs update
-    def new_or_update!(hash={}, options = {:hard_update => true})
-      hash.symbolize_keys!
-      if hash[:id].blank?
-        self.new(hash)
-      else
-        rec = self.find(hash[:id])
-        if options[:hard_update]
-          rec.update_attributes!(hash.except(:id))
-        else
-          rec.update_attributes(hash.except(:id))
-        end
-        rec
-      end
-    end
-
     def enum_int(field, values, options = {})
       const_set("#{field.to_s.upcase}_OPTIONS", values)
 
@@ -107,31 +76,6 @@ module ActiveRecordExtensions
           end
         EVAL
       end
-    end
-
-    # Run a block, being respectful of connection pools
-    #
-    # Useful for when you're not in the standard rails request process,
-    # since normally rails will take, then clear you're connection in the
-    # processing of the request.
-    #
-    # If you don't do this in, say, a command line task with threads, then
-    # you'll run out of connections after 5 x Threads are run simultaneously...
-    def with_connection_pooling
-      # Verify active connections and remove and disconnect connections
-      # associated with stale threads.
-      ActiveRecord::Base.verify_active_connections!
-
-      yield
-
-      # This code checks in the connection being used by the current thread back
-      # into the connection pool. It repeats this if you are using multiple
-      # connection pools. It will not disconnect the connection.
-      #
-      # Returns any connections in use by the current thread back to the pool,
-      # and also returns connections to the pool cached by threads that are no
-      # longer alive.
-      ActiveRecord::Base.clear_active_connections!
     end
   end
 
