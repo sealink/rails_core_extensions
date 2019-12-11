@@ -68,25 +68,6 @@ describe 'enum_int' do
   end
 end
 
-describe "ActiveRecord::Base" do
-  let(:mock_model) { double }
-  let(:model_class) { Class.new(ActiveRecord::Base) }
-  before { stub_const 'Model', model_class }
-
-  it "should create a new record if new_or_update! is passed a hash without an :id" do
-    attributes = {:fake_column => 'nothing really'}
-    expect(Model).to receive(:new).with(attributes)
-    Model.new_or_update!(attributes)
-  end
-
-  it "should update record if new_or_update! is passed hash with :id" do
-    attributes = {:fake_column => 'nothing really', :id => 1}
-    expect(Model).to receive(:find) { mock_model }
-    expect(mock_model).to receive(:update_attributes!)
-    Model.new_or_update!(attributes)
-  end
-end
-
 describe RailsCoreExtensions::ActionControllerSortable do
   class NormalController < ActionController::Base
   end
@@ -99,40 +80,5 @@ describe RailsCoreExtensions::ActionControllerSortable do
     # map(&:to_sym) for ruby 1.8 compatibility
     expect(NormalController.new.methods.map(&:to_sym)).to_not include(:sort)
     expect(SortableController.new.methods.map(&:to_sym)).to include(:sort)
-  end
-end
-
-describe ActiveRecordExtensions do
-  let(:model_class) {
-    Class.new(ActiveRecord::Base) do
-      cache_all_attributes :by => 'name'
-    end
-  }
-  let(:first) { Model.create!(:name => 'First') }
-  let(:second) { Model.create!(:name => 'Second') }
-  let(:expected) {
-    {
-      'First' => first.attributes,
-      'Second' => second.attributes
-    }
-  }
-
-  before do
-    connect_to_sqlite
-    stub_const 'Model', model_class
-    allow(Model).to receive(:cache) { ActiveSupport::Cache::MemoryStore.new }
-    allow(Model).to receive(:should_cache?) { true }
-    [first, second]
-  end
-
-  it 'should cache all attributes' do
-    # Test underlying generate attributes hash method works
-    expect(Model.generate_attributes_hash).to eq expected
-    expect(Model.attribute_cache).to eq expected
-
-    # Test after save/destroy it updates
-    first.destroy
-    expect(Model.attribute_cache).to eq 'Second' => second.attributes
-    second.destroy # Clean up after
   end
 end
