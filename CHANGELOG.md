@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.8.0
 
 * [TT-6539] Remove cache_all_attributes and other unused methods
 * [TT-5384] Remove validates_presence_of_parent method (Use rails optional flag instead)
