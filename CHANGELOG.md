@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* [TT-6727] Fix usage of symbolize_keys in sortable
+
 ## 0.8.0
 
 * [TT-6539] Remove cache_all_attributes and other unused methods
