@@ -26,7 +26,7 @@ describe RailsCoreExtensions::Sortable do
     models.each(&:destroy)
   end
 
-  subject { RailsCoreExtensions::Sortable.new(params, 'models') }
+  subject { RailsCoreExtensions::Sortable.new(ActionController::Parameters.new(params), 'models') }
 
   RSpec.shared_examples 'unscoped' do
     let(:scope) { Model.reorder(:position) }
