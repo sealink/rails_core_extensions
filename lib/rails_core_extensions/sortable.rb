@@ -8,7 +8,7 @@ module RailsCoreExtensions
     #   category_id (or whatever the name of scope is)
     #   model_1_body (or whatever id of scope id)
     def initialize(params, controller_name)
-      @params = params.symbolize_keys
+      @params = params.permit!.to_h.symbolize_keys
       @controller_name = controller_name
       @klass = controller_name.classify.constantize
     end
