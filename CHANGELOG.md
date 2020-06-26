@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.9.0
 
 * [TT-6727] Fix usage of symbolize_keys in sortable
 
