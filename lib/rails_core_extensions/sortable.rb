@@ -43,7 +43,7 @@ module RailsCoreExtensions
     end
 
     def update(object, new_position)
-      @klass.find(object.id).update_attribute(:position, new_position)
+      @klass.find(object.id).update(position: new_position)
     end
   end
 end
