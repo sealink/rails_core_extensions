@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.10.0
 
 * [TT-8507] Sortable will now fire callbacks to ensure we audit these changes
 
