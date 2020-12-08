@@ -43,7 +43,7 @@ module RailsCoreExtensions
     end
 
     def update(object, new_position)
-      @klass.where(id: object.id).limit(1).update_all(position: new_position)
+      @klass.find(object.id).update(position: new_position)
     end
   end
 end
