@@ -6,7 +6,7 @@ module RailsCoreExtensions
 
     module ClassMethods
       def translate(key, options = {})
-        I18n.translate key, options.merge(scope: translation_key)
+        I18n.translate key, **options.merge(scope: translation_key)
       end
 
       def translation_key
