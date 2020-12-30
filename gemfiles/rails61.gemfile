@@ -1,0 +1,6 @@
+source :rubygems
+gemspec :path => '../'
+
+group :development, :test do
+  gem 'activerecord', '~> 6.1'
+end
