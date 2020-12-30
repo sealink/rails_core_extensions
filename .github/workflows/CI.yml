@@ -1,5 +1,5 @@
 name: Build
-on: [push]
+on: [push, pull_request]
 jobs:
   test:
     strategy:
@@ -8,6 +8,8 @@ jobs:
         gemfile: [rails60, rails61]
         ruby: ["2.6", "2.7", "3.0"]
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.gemfile }}.gemfile
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
