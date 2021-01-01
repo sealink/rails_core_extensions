@@ -17,8 +17,7 @@ jobs:
           # Get version from github ref (remove 'refs/tags/' and prefix 'v')
           version="${GITHUB_REF#refs/tags/v}"
           echo $version
-          npx changelog-parser CHANGELOG.md | jq -c '.versions | .[] | select(.version == "$version") | .body'
-          npx changelog-parser CHANGELOG.md | jq -c '.versions | .[] | select(.version == "$version") | .body' > ${{ github.workflow }}-CHANGELOG.txt
+          npx changelog-parser CHANGELOG.md | jq -c ".versions | .[] | select(.version == \"$version\") | .body" > ${{ github.workflow }}-CHANGELOG.txt
           echo "whats in the file?"
           cat ${{ github.workflow }}-CHANGELOG.txt
 
