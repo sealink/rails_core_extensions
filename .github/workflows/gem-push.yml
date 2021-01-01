@@ -11,8 +11,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby
-      - uses: ruby/setup-ruby@v1
+    - uses: ruby/setup-ruby@v1
 
     - name: Publish to RubyGems
       run: |
