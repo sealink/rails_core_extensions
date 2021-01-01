@@ -16,10 +16,7 @@ jobs:
         run: |
           # Get version from github ref (remove 'refs/tags/' and prefix 'v')
           version="${GITHUB_REF#refs/tags/v}"
-          echo $version
-          npx changelog-parser CHANGELOG.md | jq -c ".versions | .[] | select(.version == \"$version\") | .body" > ${{ github.workflow }}-CHANGELOG.txt
-          echo "whats in the file?"
-          cat ${{ github.workflow }}-CHANGELOG.txt
+          npx changelog-parser CHANGELOG.md | jq -cr ".versions | .[] | select(.version == \"$version\") | .body" > ${{ github.workflow }}-CHANGELOG.txt
 
       - name: Release
         uses: softprops/action-gh-release@v1
