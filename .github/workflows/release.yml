@@ -6,7 +6,19 @@ on:
       - "v*"
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: bundle exec rake
+
   release:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,12 +38,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish:
+    needs: [build, release]
     name: Publish
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
+      - run: bundle exec rake
 
       - name: Publish to RubyGems
         run: |
