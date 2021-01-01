@@ -19,6 +19,7 @@ jobs:
 
   release:
     needs: build
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
