@@ -1,7 +1,7 @@
 Rails Core Extensions
 ====================
 
-[![Build Status](https://travis-ci.org/sealink/rails_core_extensions.png?branch=master)](https://travis-ci.org/sealink/rails_core_extensions)
+[![Build Status](https://github.com/sealink/rails_core_extensions/workflows/Build/badge.svg)](https://github.com/sealink/rails_core_extensions/actions)
 [![Coverage Status](https://coveralls.io/repos/sealink/rails_core_extensions/badge.png)](https://coveralls.io/r/sealink/rails_core_extensions)
 [![Code Climate](https://codeclimate.com/github/sealink/rails_core_extensions.png)](https://codeclimate.com/github/sealink/rails_core_extensions)
 
