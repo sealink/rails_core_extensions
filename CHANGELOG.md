@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0 Unreleased
+
+* [TT-] Switch from travis to gihthub actions
+* [TT-] Add support for Rails 6.1 / Ruby 3
+
 ## 0.10.0
 
 * [TT-8507] Sortable will now fire callbacks to ensure we audit these changes
