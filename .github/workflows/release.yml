@@ -11,14 +11,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install parse-changelog
-        run: cargo install parse-changelog
+
       - name: Generate Changelog
         run: |
           # Get version from github ref (remove 'refs/tags/' and prefix 'v')
           version="${GITHUB_REF#refs/tags/v}"
-          # Get notes for $version from CHANGELOG.md.
-          parse-changelog CHANGELOG.md "$version" > ${{ github.workflow }}-CHANGELOG.txt
+          npx changelog-parser CHANGELOG.md | jq -c '.versions | .[] | select(.version == "$version") | .body' > ${{ github.workflow }}-CHANGELOG.txt
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

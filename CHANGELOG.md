@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.11.0.beta.1
+## 0.11.0.beta.2
 
 * [TT-] Switch from travis to gihthub actions
 * [TT-] Add support for Rails 6.1 / Ruby 3
