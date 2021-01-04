@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
+  spec.required_ruby_version = '>= 2.6'
 
   spec.add_dependency 'activerecord', ['>= 6.0.0']
   spec.add_dependency 'actionpack', ['>= 6.0.0']
@@ -31,5 +32,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'coveralls'
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'sqlite3'
-  spec.add_development_dependency 'travis'
 end
