@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.1 Unreleased
+
+* [TT-8608] Fix broken rake command in the gem publish stage
+
 ## 0.11.0
 
 * [TT-8608] Switch from travis to gihthub actions
