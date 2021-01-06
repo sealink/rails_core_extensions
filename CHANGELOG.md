@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* [TT-8640] Add dependabot config
+
 ## 0.11.1
 
 * [TT-8608] Fix broken rake command in the gem publish stage
