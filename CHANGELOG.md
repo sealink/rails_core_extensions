@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [TT-8647] Fix issue with position_helpers_for active record change
+
 ## 0.11.2
 
 * [TT-8640] Add dependabot config
