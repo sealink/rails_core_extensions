@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.11.3
 
 - [TT-8647] Fix issue with position_helpers_for active record change
 
