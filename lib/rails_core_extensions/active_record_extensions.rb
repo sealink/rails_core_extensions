@@ -70,7 +70,7 @@ module ActiveRecordExtensions
             reload
             #{collection}.sort_by(&:position).each_with_index do |o, index|
               if o.position != (index + 1)
-                o.update(:position, index + 1)
+                o.update(position: index + 1)
               end
             end
           end
