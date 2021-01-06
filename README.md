@@ -1,6 +1,6 @@
 # Rails Core Extensions
 
-[![Build Status](https://github.com/sealink/rails_core_extensions/workflows/Build/badge.svg?branch=master)](https://github.com/sealink/rails_core_extensions/actions)
+[![Build Status](https://github.com/sealink/rails_core_extensions/workflows/Build%20and%20Test/badge.svg?branch=master)](https://github.com/sealink/rails_core_extensions/actions)
 [![Coverage Status](https://coveralls.io/repos/sealink/rails_core_extensions/badge.png)](https://coveralls.io/r/sealink/rails_core_extensions)
 [![Code Climate](https://codeclimate.com/github/sealink/rails_core_extensions.png)](https://codeclimate.com/github/sealink/rails_core_extensions)
 
@@ -62,10 +62,10 @@ along with type_body[]=7.. for all the types in category 6
 
 To publish a new version of this gem the following steps must be taken.
 
-* Update the version in the following files
+- Update the version in the following files
   ```
     CHANGELOG.md
     lib/rails_core_extensions/version.rb
-  ````
-* Create a tag using the format v0.1.0
-* Follow build progress in GitHub actions
+  ```
+- Create a tag using the format v0.1.0
+- Follow build progress in GitHub actions
