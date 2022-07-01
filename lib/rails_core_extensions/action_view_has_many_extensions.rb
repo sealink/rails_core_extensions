@@ -28,5 +28,7 @@ module RailsCoreExtensions
   end
 end
 
-ActionView::Base.send(:include, RailsCoreExtensions::HasManyExtensions::Tags) if defined?(ActionView::Base)
-ActionView::Helpers::FormBuilder.send(:include, RailsCoreExtensions::HasManyExtensions::FormBuilder) if defined?(ActionView::Base)
+ActiveSupport.on_load :action_view do
+  ActionView::Base.send(:include, RailsCoreExtensions::HasManyExtensions::Tags)
+  ActionView::Helpers::FormBuilder.send(:include, RailsCoreExtensions::HasManyExtensions::FormBuilder)
+end

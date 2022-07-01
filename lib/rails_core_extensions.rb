@@ -10,15 +10,19 @@ module RailsCoreExtensions
     require 'rails_core_extensions/activatable'
     require 'rails_core_extensions/action_controller_sortable'
 
-    ActionController::Base.send(:include, Activatable)
-    ActionController::Base.send(:include, ActionControllerSortable)
+    ActiveSupport.on_load(:action_controller) do
+      ActionController::Base.send(:include, Activatable)
+      ActionController::Base.send(:include, ActionControllerSortable)
+    end
   end
 
   if defined? ActionView
     require 'rails_core_extensions/action_view_extensions'
     require 'rails_core_extensions/action_view_has_many_extensions'
 
-    ActionView::Base.send(:include, RailsCoreExtensions::ActionViewExtensions)
+    ActiveSupport.on_load(:active_view) do
+      ActionView::Base.send(:include, RailsCoreExtensions::ActionViewExtensions)
+    end
   end
 
   if defined? ActiveRecord
@@ -28,11 +32,13 @@ module RailsCoreExtensions
     require 'rails_core_extensions/translations'
     require 'rails_core_extensions/active_model_extensions'
 
-    ActiveRecord::Base.send(:include, ActiveRecordCloning)
-    ActiveRecord::Base.send(:include, ActiveRecordExtensions)
-    ActiveRecord::Base.send(:include, RailsCoreExtensions::ActiveRecordLiquidExtensions)
-    ActiveRecord::Base.send(:include, ActiveRecordExtensions::InstanceMethods)
-    ActiveRecord::Base.send(:include, RailsCoreExtensions::Translations)
-    ActiveRecord::Base.send(:include, ActiveModelExtensions::Validations)
+    ActiveSupport.on_load(:active_record) do
+      ActiveRecord::Base.send(:include, ActiveRecordCloning)
+      ActiveRecord::Base.send(:include, ActiveRecordExtensions)
+      ActiveRecord::Base.send(:include, RailsCoreExtensions::ActiveRecordLiquidExtensions)
+      ActiveRecord::Base.send(:include, ActiveRecordExtensions::InstanceMethods)
+      ActiveRecord::Base.send(:include, RailsCoreExtensions::Translations)
+      ActiveRecord::Base.send(:include, ActiveModelExtensions::Validations)
+    end
   end
 end
