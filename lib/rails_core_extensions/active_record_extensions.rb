@@ -1,7 +1,5 @@
 module ActiveRecordExtensions
-  def self.included(base)
-    base.extend ClassMethods
-  end
+  extend ActiveSupport::Concern
 
   module ClassMethods
     # Like establish_connection but postfixes the key with the rails environment

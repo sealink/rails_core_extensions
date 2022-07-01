@@ -1,8 +1,6 @@
 module ActiveModelExtensions
   module Validations
-    def self.included(base)
-      base.extend ClassMethods
-    end
+    extend ActiveSupport::Concern
 
     # Validates the presence of the required fields identified in a rule-string.
     #
