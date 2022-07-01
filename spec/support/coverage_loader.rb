@@ -1,3 +1,3 @@
 require 'coverage/kit'
 
-Coverage::Kit.setup(minimum_coverage: 86.7)
+Coverage::Kit.setup(minimum_coverage: 82.9)
