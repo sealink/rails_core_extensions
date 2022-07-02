@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [PLAT-378] Improve bundler startup time; Drop Concurrency
+
 ## 0.12.0
 
 - [PLAT-183] Ruby 3.1, Rails 7.0 and publish coverage with github action

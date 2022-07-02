@@ -1,8 +1,6 @@
 module RailsCoreExtensions
   module Translations
-    def self.included(base)
-      base.extend ClassMethods
-    end
+    extend ActiveSupport::Concern
 
     module ClassMethods
       def translate(key, options = {})

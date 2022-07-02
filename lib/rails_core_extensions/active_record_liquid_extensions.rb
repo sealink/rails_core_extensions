@@ -1,8 +1,6 @@
 module RailsCoreExtensions
   module ActiveRecordLiquidExtensions
-    def self.included(base)
-      base.extend ClassMethods
-    end
+    extend ActiveSupport::Concern
   end
 
   module ClassMethods
