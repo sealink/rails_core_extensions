@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.13.1
 
 - [PLAT-384] Fix the liquid extension
 
