@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [PLAT-390] Fix broken `action_view` extensions
+
 ## 0.13.1
 
 - [PLAT-384] Fix the liquid extension

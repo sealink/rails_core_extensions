@@ -20,7 +20,7 @@ module RailsCoreExtensions
     require 'rails_core_extensions/action_view_extensions'
     require 'rails_core_extensions/action_view_has_many_extensions'
 
-    ActiveSupport.on_load(:active_view) do
+    ActiveSupport.on_load(:action_view) do
       ActionView::Base.send(:include, RailsCoreExtensions::ActionViewExtensions)
     end
   end
