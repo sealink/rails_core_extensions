@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.13.2
 
 - [PLAT-390] Fix broken `action_view` extensions
 
