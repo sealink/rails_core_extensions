@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [PLAT-384] Fix the liquid extension
+
 ## 0.13.0
 
 - [PLAT-378] Improve bundler startup time; Drop Concurrency
