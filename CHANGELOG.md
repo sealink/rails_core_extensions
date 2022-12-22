@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [PLAT-1135] Remove `enum_int` as we have now fully migrated to rails native `enum`
+
 ## 0.13.2
 
 - [PLAT-390] Fix broken `action_view` extensions
