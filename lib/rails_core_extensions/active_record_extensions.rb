@@ -9,28 +9,6 @@ module ActiveRecordExtensions
       establish_connection("#{key}_#{Rails.env}")
     end
 
-    def enum_int(field, values, options = {})
-      const_set("#{field.to_s.upcase}_OPTIONS", values)
-
-      select_options = values.map.with_index{|v, i| [v.to_s.humanize, i]}
-      const_set("#{field.to_s.upcase}_SELECT_OPTIONS", select_options)
-
-      values.each.with_index do |value, i|
-        const_set("#{field.to_s.upcase}_#{value.to_s.upcase}", i)
-        method_name = options[:short_name] ? "#{value}?" : "#{field}_#{value}?"
-        class_eval <<-ENUM
-          def #{method_name}
-            #{field} == #{i}
-          end
-        ENUM
-      end
-      class_eval <<-ENUM
-        def #{field}_name
-          #{field.to_s.upcase}_OPTIONS[#{field}]
-        end
-      ENUM
-    end
-
     def optional_fields(*possible_fields)
       @optional_fields_loader = possible_fields.pop if possible_fields.last.is_a?(Proc)
 
