@@ -1,0 +1,12 @@
+# The commits that did automated reformatting. You can ignore them
+# during git-blame with `--ignore-rev` or `--ignore-revs-file`.
+# You can also globally configure GIT with the following command
+#
+#   $ git config --add 'blame.ignoreRevsFile' '.git-blame-ignore-revs'
+#
+# Example entries:
+#
+# <full commit hash>  # initial black-format
+# <full commit hash>  # rename something internal
+
+043b2db647926c048202b037f87e5e2396f830e1 # Pretty CHANGELOG.md

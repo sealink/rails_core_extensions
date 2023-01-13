@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- [PLAT-1175] Update to Ruby 3.2
+
 ## 0.14.0
 
 - [PLAT-1135] Remove `enum_int` as we have now fully migrated to rails native `enum`
